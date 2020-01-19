@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "module": "commonjs",
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "types": [
+      "reflect-metadata"
+    ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "typings"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compileOnSave": false
+}

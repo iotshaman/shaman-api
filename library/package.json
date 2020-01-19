@@ -1,0 +1,55 @@
+{
+  "name": "shaman-api",
+  "version": "0.0.1",
+  "description": "Library for building APIs in the IoT Shaman ecosystem",
+  "main": "dist/index.js",
+  "typings": "public_api.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "nyc mocha"
+  },
+  "devDependencies": {
+    "@types/chai": "4.1.4",
+    "@types/mocha": "5.2.5",
+    "@types/mongoose": "5.5.41",
+    "@types/node": "10.5.8",
+    "@types/sinon-chai": "^3.2.0",
+    "chai": "4.1.2",
+    "mocha": "5.2.0",
+    "nyc": "^15.0.0",
+    "sinon": "^6.1.5",
+    "sinon-chai": "^3.2.0",
+    "sinon-mongoose": "^2.2.1",
+    "ts-node": "7.0.1",
+    "typescript": "3.0.1"
+  },
+  "dependencies": {
+    "inversify": "5.0.1",
+    "mongoose": "5.8.7",
+    "reflect-metadata": "^0.1.12",
+    "winston": "3.2.1"
+  },
+  "author": "Kyle Brown",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@iotshaman"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "**/*.js",
+      "coverage/*",
+      "dist/*",
+      "**/*.mock.ts"
+    ],
+    "reporter": [
+      "html",
+      "lcov"
+    ],
+    "all": true
+  }
+}
