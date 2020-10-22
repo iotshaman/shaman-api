@@ -8,14 +8,12 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "types": [
-      "reflect-metadata",
-      "mongoose"
+      "node"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "typeRoots": [
-      "node_modules/@types",
-      "typings"
+      "node_modules/@types"
     ]
   },
   "include": [

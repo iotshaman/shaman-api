@@ -1,6 +1,6 @@
 {
   "name": "shaman-api",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Library for building APIs in the IoT Shaman ecosystem",
   "main": "dist/index.js",
   "typings": "public_api.d.ts",
@@ -9,25 +9,20 @@
     "test": "nyc mocha"
   },
   "devDependencies": {
-    "@types/chai": "4.1.4",
-    "@types/mocha": "5.2.5",
-    "@types/mongoose": "5.5.41",
-    "@types/node": "10.5.8",
-    "@types/sinon-chai": "^3.2.0",
-    "chai": "4.1.2",
-    "mocha": "5.2.0",
-    "nyc": "^15.0.0",
-    "sinon": "^6.1.5",
-    "sinon-chai": "^3.2.0",
-    "sinon-mongoose": "^2.2.1",
-    "ts-node": "7.0.1",
-    "typescript": "3.0.1"
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.14.2",
+    "@types/sinon": "^9.0.8",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.0",
+    "ts-auto-mock": "^2.6.5",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   },
   "dependencies": {
-    "inversify": "5.0.1",
-    "mongoose": "5.8.7",
-    "reflect-metadata": "^0.1.12",
-    "winston": "3.2.1"
+    "winston": "^3.3.3"
   },
   "author": "Kyle Brown",
   "license": "ISC",
@@ -41,10 +36,7 @@
     "exclude": [
       "**/*.d.ts",
       "**/*.spec.ts",
-      "**/*.js",
-      "coverage/*",
-      "dist/*",
-      "**/*.mock.ts"
+      "**/*.js"
     ],
     "reporter": [
       "html",
