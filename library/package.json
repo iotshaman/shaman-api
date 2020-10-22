@@ -1,5 +1,5 @@
 {
-  "name": "@iotshaman/shaman-api",
+  "name": "shaman-api",
   "version": "0.1.0",
   "description": "Library for building APIs in the IoT Shaman ecosystem",
   "main": "dist/index.js",
