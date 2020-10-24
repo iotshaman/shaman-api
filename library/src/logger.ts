@@ -16,11 +16,11 @@ export class Logger implements ILogger {
     if (logLevel > this.level) return;
     let color = LogLevelColors[logLevel]
     let level = LogLevelStrings[logLevel];
-    let prefix: string = `${this.timestamp} ${level}:`;
+    let prefix: string = `${this.getTimestamp()} ${level}:`;
     this.console.log(`${color}%s\x1b[0m %s`, prefix, message);
   }
 
-  private get timestamp(): string {
+  private getTimestamp(): string {
     let date = new Date();
     let offset = date.getTimezoneOffset() * 60000;
     let rslt = new Date(date.getTime() - offset).toISOString();
