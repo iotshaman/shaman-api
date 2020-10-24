@@ -1,6 +1,6 @@
 {
   "name": "@iotshaman/shaman-api",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Library for building APIs in the IoT Shaman ecosystem",
   "main": "dist/index.js",
   "typings": "public_api.d.ts",

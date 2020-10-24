@@ -1,5 +1,8 @@
 export interface ILogger {
   log: (message: string, logLevel?: number) => void;
+  error: (message: string) => void;
+  warn: (message: string) => void;
+  info: (message: string) => void;
 }
 
 export class Logger implements ILogger {
@@ -19,6 +22,12 @@ export class Logger implements ILogger {
     let prefix: string = `${this.getTimestamp()} ${level}:`;
     this.console.log(`${color}%s\x1b[0m %s`, prefix, message);
   }
+
+  error = (message: string) => this.log(message, LogLevels.error);
+
+  warn = (message: string) => this.log(message, LogLevels.warn);
+
+  info = (message: string) => this.log(message, LogLevels.info);
 
   private getTimestamp(): string {
     let date = new Date();

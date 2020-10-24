@@ -35,4 +35,25 @@ describe('Logger', () => {
     expect(stub.called).to.be.true;
   });
 
+  it('error should write to console', () => {
+    var logger = new Logger();
+    let stub = sandbox.stub(logger.console, 'log');
+    logger.error('test');
+    expect(stub.called).to.be.true;
+  });
+
+  it('warn should write to console', () => {
+    var logger = new Logger();
+    let stub = sandbox.stub(logger.console, 'log');
+    logger.warn('test');
+    expect(stub.called).to.be.true;
+  });
+
+  it('info should write to console', () => {
+    var logger = new Logger();
+    let stub = sandbox.stub(logger.console, 'log');
+    logger.info('test');
+    expect(stub.called).to.be.true;
+  });
+
 });
