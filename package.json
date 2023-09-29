@@ -1,0 +1,18 @@
+{
+  "name": "shaman-api-solution",
+  "version": "2.0.0",
+  "description": "Solution wrapper for shaman-api projects.",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "restore": "shaman install",
+    "build": "shaman build",
+    "publish": "shaman publish",
+    "debug": "shaman build && shaman serve shaman-api-sample",
+    "sample": "shaman serve shaman-api-sample"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "shaman-cli": "^1.0.19"
+  }
+}
