@@ -1,7 +1,0 @@
-node_modules
-dist
-debug
-coverage
-.nyc_output
-.vscode
-server.log
