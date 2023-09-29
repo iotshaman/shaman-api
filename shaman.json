@@ -1,0 +1,20 @@
+{
+  "name": "shaman-api",
+  "projects": [
+    {
+      "name": "shaman-api",
+      "environment": "node",
+      "type": "library",
+      "path": "library"
+    },
+    {
+      "name": "shaman-api-sample",
+      "environment": "node",
+      "type": "server",
+      "path": "sample",
+      "include": [
+        "shaman-api"
+      ]
+    }
+  ]
+}
