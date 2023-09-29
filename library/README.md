@@ -1,2 +1,2 @@
 # Shaman API
-Documentation coming soon!
+This file is a placeholder and will be removed during build process.
