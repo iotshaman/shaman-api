@@ -4,6 +4,7 @@ import { SHAMAN_API_TYPES } from "./composition.types";
 
 export abstract class ShamanExpressModule {
   abstract name?: string;
+  isolated: boolean = false;
   controllers = (container: Container): ShamanExpressController[] => {
     return container.getAll<ShamanExpressController>(SHAMAN_API_TYPES.ApiController);
   };
