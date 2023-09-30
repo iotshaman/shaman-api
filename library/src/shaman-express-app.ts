@@ -34,8 +34,8 @@ export class ShamanExpressApp {
     return container;
   }
 
-  configureRouter = async (modules: ShamanExpressModule[] = []): Promise<void> => {
-    if (!!this.app) return;
+  configureRouter = async (modules: ShamanExpressModule[] = []): Promise<Application> => {
+    if (!!this.app) return this.app;
     if (!this.container) throw new Error("Please call 'compose' before configuring router.");
     this.app = ExpressFactory.GenerateApplication(this.config);
     let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
@@ -48,6 +48,7 @@ export class ShamanExpressApp {
       module.export(this.container);
     }
     router.registerGlobalErrorHandler(this.app);
+    return this.app;
   }
 
   startApplication = (): Promise<void> => {
