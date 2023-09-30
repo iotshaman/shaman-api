@@ -124,6 +124,7 @@ import { ShamanExpressController } from "./shaman-express-controller";
 export declare abstract class ShamanExpressModule {
     abstract name?: string;
     abstract compose: (container: Container) => Promise<Container>;
+    isolated: boolean = false;
     export?: (container: Container) => Promise<void>;
 }
 ```
@@ -180,4 +181,4 @@ let bootstrap = async () => {
 }
 ```
 
-As a note, any controller that is composed inside of a module using the "SHAMAN_API_TYPES.ApiController" type will automatically be added to your express api, making it available via HTTP requests. 
+Any controller that is composed inside of a module using the "SHAMAN_API_TYPES.ApiController" type will automatically be added to your express api, making it available via HTTP requests. If you set the module's "isolated" variable to 'false' (default, no override needed) then the component will automatically get access to the parent application module (from main.ts); if you provide the value and set it to 'true', the module will get its own isolated container, and will not have access to anything in the parent container. 

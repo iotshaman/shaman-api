@@ -41,7 +41,8 @@ export class ShamanExpressApp {
     let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
     router.configure(this.app);
     for (let module of modules) {
-      let moduleContainer = await module.compose(new Container());
+      let parentContainer = module.isolated ? new Container() : this.container.createChild();
+      let moduleContainer = await module.compose(parentContainer);
       let controllers = module.controllers(moduleContainer);
       for (let controller of controllers) controller.configure(this.app);
       if (!module.export) continue;
