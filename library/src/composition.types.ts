@@ -3,7 +3,8 @@ const SHAMAN_API_TYPES = {
   Logger: "Logger",
   ApiService: "ApiService",
   ApiRouter: "ApiRouter",
-  ApiController: "ApiController"
+  ApiController: "ApiController",
+  ExpressApplication: "ExpressApplication"
 };
 
 export { SHAMAN_API_TYPES };

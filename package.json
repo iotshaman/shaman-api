@@ -1,6 +1,6 @@
 {
   "name": "shaman-api-solution",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Solution wrapper for shaman-api projects.",
   "main": "index.js",
   "private": true,

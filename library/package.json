@@ -1,6 +1,6 @@
 {
 	"name": "shaman-api",
-	"version": "2.0.1", 
+	"version": "2.0.2", 
   "description": "Framework for creating RESTful APIs using Typescript (build on top of express.js).",
 	"main": "dist/index.js",
 	"typings": "public_api.d.ts",
