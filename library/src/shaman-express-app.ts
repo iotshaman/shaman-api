@@ -30,14 +30,14 @@ export class ShamanExpressApp {
     container.bind<any>(SHAMAN_API_TYPES.AppConfig).toConstantValue(config);
     container.bind<ILogger>(SHAMAN_API_TYPES.Logger).to(Logger);
     container.bind<Router>(SHAMAN_API_TYPES.ApiRouter).to(Router).inSingletonScope();
+    this.app = ExpressFactory.GenerateApplication(this.config);
+    container.bind<Application>(SHAMAN_API_TYPES.ExpressApplication).toConstantValue(this.app);
     this.container = container;
     return container;
   }
 
   configureRouter = async (modules: ShamanExpressModule[] = []): Promise<Application> => {
-    if (!!this.app) return this.app;
     if (!this.container) throw new Error("Please call 'compose' before configuring router.");
-    this.app = ExpressFactory.GenerateApplication(this.config);
     let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
     router.configure(this.app);
     for (let module of modules) {
