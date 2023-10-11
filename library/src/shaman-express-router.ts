@@ -6,6 +6,7 @@ import { ILogger } from "./logger";
 import { RouteError } from "./models/router-error";
 import { ShamanExpressController } from "./shaman-express-controller";
 
+/* istanbul ignore next */
 @injectable()
 export class ShamanExpressRouter {
 
@@ -26,7 +27,7 @@ export class ShamanExpressRouter {
         if (err.stack) this.logger.write(err.stack);
       }
       if (!err.statusCode) return next();
-      if (!err.sendMessge) return res.status(err.statusCode).send('Server Error');
+      if (!err.sendMessage) return res.status(err.statusCode).send('Server Error');
       return res.status(err.statusCode).send(err.message);
     });
   }

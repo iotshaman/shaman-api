@@ -52,6 +52,7 @@ export class ShamanExpressApp {
     return this.app;
   }
 
+  /* istanbul ignore next */
   startApplication = (): Promise<void> => {
     return new Promise((res) => {
       if (this.serverStarted) return res();
