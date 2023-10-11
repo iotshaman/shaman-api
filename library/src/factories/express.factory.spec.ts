@@ -31,14 +31,5 @@ describe('ExpressFactory', () => {
       expect(app._router.stack).to.have.length(6); // 6 middleware functions with CORS
       expect(app._router.stack[5].handle.name).to.equal('corsMiddleware');
     });
-
-    // TODO: Figure out how to test the CORS middleware headers
-    // it('should generate an Express application with custom allowed headers if specified', () => {
-    //   const config: ShamanExpressAppConfig = { disableCors: false, headerAllowList: ['Custom-Header'] };
-    //   const app = ExpressFactory.GenerateApplication(config);
-    //   expect(app._router.stack).to.have.lengthOf(6); // 6 middleware functions with CORS
-    //   expect(app._router.stack[5].handle.name).to.equal('corsMiddleware');
-    //   expect(app._router.stack[5].handle.options.allowedHeaders).to.include('Custom-Header');
-    // });
   });
 });
