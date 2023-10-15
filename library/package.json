@@ -1,7 +1,7 @@
 {
 	"name": "shaman-api",
-	"version": "2.0.3", 
-  "description": "Framework for creating RESTful APIs using Typescript (build on top of express.js).",
+	"version": "2.0.3",
+	"description": "Framework for creating RESTful APIs using Typescript (build on top of express.js).",
 	"main": "dist/index.js",
 	"typings": "public_api.d.ts",
 	"private": true,
@@ -34,8 +34,10 @@
 		"mocha": "^10.2.0",
 		"nyc": "^15.1.0",
 		"sinon": "^16.0.0",
+		"sinon-chai": "^3.7.0",
 		"ts-auto-mock": "^3.7.1",
 		"ts-node": "^10.9.1",
+		"ts-sinon": "^2.0.2",
 		"typescript": "^5.2.2"
 	},
 	"nyc": {

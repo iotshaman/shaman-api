@@ -12,7 +12,7 @@ export class JsonFileService implements IJsonService {
   getJson<T>(path: string): Promise<T> {
     return new Promise((res, err) => {
       fs.readFile(path, 'utf-8', (ex, data) => {
-        if (ex) return err(new Error(ex.message));
+        if (ex) return err(ex);
         res(JSON.parse(data));
       })
     });
