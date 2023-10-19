@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { sign, verify } from 'jsonwebtoken';
 import { isTokenExpired } from '../functions/token.functions';
 import { AccessToken } from '../models/auth/access-token';
@@ -6,6 +7,14 @@ import { AuthStatusCode } from '../models/auth/auth-status-code';
 import { TokenData } from '../models/auth/token-data';
 import { User } from '../models/user.model';
 
+export interface IShamanAuthService {
+  createUserAuthCode: (user: User) => string;
+  getTokenData: (token: string) => TokenData;
+  authorize: (accessToken: string, permissions: string[], connector?: string) => AuthStatusCode;
+  getEmailFromToken: (token: string) => string;
+}
+
+@injectable()
 export class ShamanAuthService {
   constructor(private tokenSecret: string) { }
 

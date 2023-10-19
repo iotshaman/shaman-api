@@ -4,21 +4,21 @@ import { RouteError } from "../../models/router-error";
 import { ShamanExpressController } from "../../shaman-express-controller";
 import { TokenRequest } from "./models/auth/token-request";
 import { UserPassport } from "./models/auth/user-passport";
-import { ShamanAuthService } from "./services/shaman-auth.service";
-import { TokenService } from "./services/token.service";
-import { UserService } from "./services/user.service";
+import { IShamanAuthService } from "./services/shaman-auth.service";
+import { ITokenService } from "./services/token.service";
+import { IUserService } from "./services/user.service";
 import { SHAMAN_AUTH_TYPES } from "./shaman-auth.types";
 
 @injectable()
 export class ShamanAuthController implements ShamanExpressController {
-  name: string = 'shaman-auth';
 
-  @inject(SHAMAN_AUTH_TYPES.ShamanAuthService)
-  private authService: ShamanAuthService;
-  @inject(SHAMAN_AUTH_TYPES.UserService)
-  private userService: UserService;
-  @inject(SHAMAN_AUTH_TYPES.TokenService)
-  private tokenService: TokenService;
+  name: string = 'shaman-auth.controller';
+
+  constructor(
+    @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) private authService: IShamanAuthService,
+    @inject(SHAMAN_AUTH_TYPES.UserService) private userService: IUserService,
+    @inject(SHAMAN_AUTH_TYPES.TokenService) private tokenService: ITokenService,
+  ) { }
 
   configure = (express: Application): void => {
     let router = Router();
@@ -45,19 +45,19 @@ export class ShamanAuthController implements ShamanExpressController {
 
   getUserPassport = (req: Request, res: Response, next: any) => {
     let request: TokenRequest = req.body;
-    let userPassportfactory: Promise<UserPassport>;
+    let userPassportFactory: Promise<UserPassport>;
     switch (request.grant_type) {
       case 'code': {
-        userPassportfactory = this.getUserPassportFromAuthCode(request.authorization_code);
+        userPassportFactory = this.getUserPassportFromAuthCode(request.authorization_code);
         break;
       }
       case 'refresh_token': {
-        userPassportfactory = this.getUserPassportFromRefreshToken(request.refresh_token);
+        userPassportFactory = this.getUserPassportFromRefreshToken(request.refresh_token);
         break;
       }
       default: return res.status(400).send(`Invalid grant type '${request.grant_type}'.`);
     }
-    userPassportfactory
+    userPassportFactory
       .then(passport => res.json(passport))
       .catch((ex: Error) => next(new RouteError(ex.message, 401)));
   }

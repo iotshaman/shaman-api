@@ -1,3 +1,4 @@
+import { injectable } from 'inversify';
 import { sign, verify } from 'jsonwebtoken';
 import * as moment from 'moment';
 import { isTokenExpired } from "../functions/token.functions";
@@ -15,6 +16,7 @@ export interface ITokenService {
   getUserPassport: (accessToken: AccessToken, refreshToken: RefreshToken) => UserPassport;
 }
 
+@injectable()
 export class TokenService implements ITokenService {
 
   constructor(public tokenSecret: string, private userService: IUserService) { }

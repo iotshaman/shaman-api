@@ -11,3 +11,4 @@ export * from './shaman-express-app';
 export * from './shaman-express-controller';
 export * from './shaman-express-module';
 export * from './shaman-express-router';
+export * from './modules/exports';
