@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "userId": 1,
+      "emailAddress": "user1@example.com",
+      "passwordHash": "$2a$08$KGaH3ikeUsT1nC6B1kviFuUm42ktXwKXZFWM8ceOmKE4vmBIXqkTS"
+    },
+    {
+      "userId": 2,
+      "emailAddress": "user2@example.com",
+      "passwordHash": "$2a$08$9/UqLkXwD/JLN9706RbmBuIRWQ7otAxo7tf6ofPX7t5X6ZaBsVc96"
+    },
+    {
+      "userId": 3,
+      "emailAddress": "user3@example.com",
+      "passwordHash": "$2a$08$a8OBzEM6nHQZGXKZVRqsy.NzH.yQKUSBUbOzEIRFATIeLLsaqs8zu"
+    }
+  ]
+}
