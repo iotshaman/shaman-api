@@ -12,7 +12,8 @@ export interface IUserService {
 
 @injectable()
 export class UserService implements IUserService {
-  private dataPath: string = "C:\\Users\\Klein\\Development\\_work\\iotshaman\\shaman-api\\sample\\data\\";
+  
+  private dataPath: string = _path.join(__dirname, "..", "..", "data");
 
   getUserByEmail = (email: string): Promise<User> => {
     const userDataPath: string = _path.join(this.dataPath, "user.data.json");
