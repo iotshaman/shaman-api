@@ -3,6 +3,7 @@ import { Application, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 import { AuthorizeControllerBase, ILogger, IShamanAuthService, SHAMAN_API_TYPES, SHAMAN_AUTH_TYPES, ShamanExpressController } from "shaman-api";
 import { IUserService } from "../services/user.service";
+import { SAMPLE_TYPES } from "../sample.types";
 
 @injectable()
 export class UserController extends AuthorizeControllerBase implements ShamanExpressController {
@@ -10,7 +11,7 @@ export class UserController extends AuthorizeControllerBase implements ShamanExp
   name: string = 'user';
 
   constructor(
-    @inject("UserDao") private userService: IUserService,
+    @inject(SAMPLE_TYPES.UserDao) private userService: IUserService,
     @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: IShamanAuthService,
     @inject(SHAMAN_API_TYPES.Logger) private logger: ILogger,
   ) {
