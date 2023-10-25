@@ -1,13 +1,13 @@
-import { Container } from "inversify";
 import { Application } from 'express';
+import { Container } from "inversify";
 
-import { ShamanExpressAppConfig } from "./shaman-express-app.config";
-import { ConfigFactory } from "./factories/config.factory";
 import { SHAMAN_API_TYPES } from "./composition.types";
-import { ILogger, Logger } from "./logger";
-import { ShamanExpressRouter as Router } from "./shaman-express-router";
-import { ShamanExpressModule } from "./shaman-express-module";
+import { ConfigFactory } from "./factories/config.factory";
 import { ExpressFactory } from "./factories/express.factory";
+import { ILogger, Logger } from "./logger";
+import { ShamanExpressAppConfig } from "./shaman-express-app.config";
+import { ShamanExpressModule } from "./shaman-express-module";
+import { ShamanExpressRouter as Router } from "./shaman-express-router";
 
 export class ShamanExpressApp {
 
@@ -25,7 +25,7 @@ export class ShamanExpressApp {
 
   compose = async (): Promise<Container> => {
     const container = new Container();
-    let {configPath} = this.config;
+    let { configPath } = this.config;
     var config = await ConfigFactory.GenerateConfig(configPath);
     container.bind<any>(SHAMAN_API_TYPES.AppConfig).toConstantValue(config);
     container.bind<ILogger>(SHAMAN_API_TYPES.Logger).to(Logger);
@@ -38,8 +38,6 @@ export class ShamanExpressApp {
 
   configureRouter = async (modules: ShamanExpressModule[] = []): Promise<Application> => {
     if (!this.container) throw new Error("Please call 'compose' before configuring router.");
-    let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
-    router.configure(this.app);
     for (let module of modules) {
       let parentContainer = module.isolated ? new Container() : this.container.createChild();
       let moduleContainer = await module.compose(parentContainer);
@@ -48,10 +46,12 @@ export class ShamanExpressApp {
       if (!module.export) continue;
       module.export(this.container);
     }
+    let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
+    router.configure(this.app);
     router.registerGlobalErrorHandler(this.app);
     return this.app;
   }
-
+  
   /* istanbul ignore next */
   startApplication = (): Promise<void> => {
     return new Promise((res) => {

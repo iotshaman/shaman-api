@@ -16,7 +16,7 @@ export class UserService implements IUserService {
 
   getUserWithPermissions = (email: string): Promise<UserPermissionMap> => {
     const user = this.userDao.getUserByEmail(email);
-    const permissions = this.userDao.getUserPermission(email);
+    const permissions = this.userDao.getUserPermissions(email);
     return Promise.all([user, permissions]).then(results => {
       let [user, permissions] = results;
       return { user, permissions };

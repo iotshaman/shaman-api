@@ -16,6 +16,7 @@ export interface IShamanAuthService {
 
 @injectable()
 export class ShamanAuthService {
+  
   constructor(private tokenSecret: string) { }
 
   createUserAuthCode = (user: User): string => {

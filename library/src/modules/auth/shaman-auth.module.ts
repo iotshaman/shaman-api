@@ -9,8 +9,8 @@ import { SHAMAN_AUTH_TYPES } from "./shaman-auth.types";
 
 export class ShamanAuthModule extends ShamanExpressModule {
   name: string = 'shaman-auth';
+  childContainer: Container;
 
-  // TODO: REMOVE THIS
   constructor(private userDao: IUserDao) { super(); }
 
   compose = (container: Container): Promise<Container> => {
@@ -22,7 +22,23 @@ export class ShamanAuthModule extends ShamanExpressModule {
     container.bind<ITokenService>(SHAMAN_AUTH_TYPES.TokenService)
       .toConstantValue(new TokenService(config.tokenSecret, this.getUserService(container)));
     container.bind<ShamanAuthController>(SHAMAN_API_TYPES.ApiController).to(ShamanAuthController);
+    this.childContainer = container;
     return Promise.resolve(container);
+  }
+
+  export = async (container: Container): Promise<void> => {
+    container.bind<ITokenService>(SHAMAN_AUTH_TYPES.TokenService)
+      .toDynamicValue(() => {
+        return this.childContainer.get<ITokenService>(SHAMAN_AUTH_TYPES.TokenService);
+      });
+    container.bind<IUserService>(SHAMAN_AUTH_TYPES.UserService)
+      .toDynamicValue(() => {
+        return this.childContainer.get<IUserService>(SHAMAN_AUTH_TYPES.UserService);
+      });
+    container.bind<IShamanAuthService>(SHAMAN_AUTH_TYPES.ShamanAuthService)
+      .toDynamicValue(() => {
+        return this.childContainer.get<IShamanAuthService>(SHAMAN_AUTH_TYPES.ShamanAuthService);
+      });
   }
 
   private getUserService = (container: Container): UserService => {

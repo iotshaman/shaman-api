@@ -31,6 +31,8 @@ export class ShamanAuthController implements ShamanExpressController {
 
   authenticateUser = (req: Request, res: Response, next: any) => {
     let { email, password } = req.body;
+    if (!email) return next(new RouteError('Email not provided.', 400));
+    if (!password) return next(new RouteError('Password not provided.', 400));
     this.userService.authenticateUser(email, password)
       .then(user => {
         let authCode = this.authService.createUserAuthCode(user);
