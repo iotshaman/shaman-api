@@ -19,7 +19,10 @@ export interface ITokenService {
 @injectable()
 export class TokenService implements ITokenService {
 
-  constructor(public tokenSecret: string, private userService: IUserService) { }
+  constructor(public tokenSecret: string, private userService: IUserService) {
+    if (!tokenSecret)
+      throw new Error("Token secret is required. See https://github.com/iotshaman/shaman-api/tree/master/library/src/modules/auth");
+  }
 
   getAccessToken = (authCodeToken: string): Promise<AccessToken> => {
     return this.validateAuthCode(authCodeToken)

@@ -16,11 +16,11 @@ export class ShamanAuthModule extends ShamanExpressModule {
   compose = (container: Container): Promise<Container> => {
     var config = container.get<ShamanExpressAppConfig>(SHAMAN_API_TYPES.AppConfig);
     container.bind<IShamanAuthService>(SHAMAN_AUTH_TYPES.ShamanAuthService)
-      .toConstantValue(new ShamanAuthService(config.tokenSecret));
+      .toConstantValue(new ShamanAuthService(config.auth.tokenSecret));
     container.bind<IUserService>(SHAMAN_AUTH_TYPES.UserService)
       .toConstantValue(new UserService(this.userDao));
     container.bind<ITokenService>(SHAMAN_AUTH_TYPES.TokenService)
-      .toConstantValue(new TokenService(config.tokenSecret, this.getUserService(container)));
+      .toConstantValue(new TokenService(config.auth.tokenSecret, this.getUserService(container)));
     container.bind<ShamanAuthController>(SHAMAN_API_TYPES.ApiController).to(ShamanAuthController);
     this.childContainer = container;
     return Promise.resolve(container);

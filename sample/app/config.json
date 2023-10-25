@@ -1,4 +1,6 @@
 {
   "foo": "bar",
-  "tokenSecret": "secret"
+  "auth": {
+    "tokenSecret": "secret"
+  }
 }

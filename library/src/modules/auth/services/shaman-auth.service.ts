@@ -17,7 +17,10 @@ export interface IShamanAuthService {
 @injectable()
 export class ShamanAuthService {
 
-  constructor(private tokenSecret: string) { }
+  constructor(private tokenSecret: string) {
+    if (!tokenSecret)
+      throw new Error("Token secret is required. See https://github.com/iotshaman/shaman-api/tree/master/library/src/modules/auth");
+  }
 
   createUserAuthCode = (user: User): string => {
     let date = new Date();
