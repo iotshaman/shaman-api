@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 const SHAMAN_AUTH_TYPES = {
   ShamanAuthService: "ShamanAuthService",
   UserService: "UserService",
@@ -5,3 +6,5 @@ const SHAMAN_AUTH_TYPES = {
 };
 
 export { SHAMAN_AUTH_TYPES };
+
+

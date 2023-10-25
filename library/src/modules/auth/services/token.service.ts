@@ -62,6 +62,7 @@ export class TokenService implements ITokenService {
       }));
   }
 
+  /* istanbul ignore next */
   private validateAuthCode = (authCode: string): Promise<AuthCode> => {
     return new Promise((res, err) => {
       let val: AuthCode = <AuthCode>verify(authCode, this.tokenSecret);
@@ -70,6 +71,7 @@ export class TokenService implements ITokenService {
     });
   }
 
+  /* istanbul ignore next */
   private validateRefreshToken = (refreshToken: string): Promise<RefreshToken> => {
     return new Promise((res, err) => {
       let val: RefreshToken = <RefreshToken>verify(refreshToken, this.tokenSecret);

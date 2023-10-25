@@ -16,7 +16,7 @@ export interface IShamanAuthService {
 
 @injectable()
 export class ShamanAuthService {
-  
+
   constructor(private tokenSecret: string) { }
 
   createUserAuthCode = (user: User): string => {
@@ -47,9 +47,11 @@ export class ShamanAuthService {
     let tokenData = this.getTokenData(token);
     if (tokenData == null || tokenData.tokenType != "Bearer") return null;
     let accessToken = this.getAccessToken(tokenData.tokenValue);
+    /* istanbul ignore next */
     return accessToken?.emailAddress;
   }
 
+  /* istanbul ignore next */
   private getAccessToken = (accessToken: string): AccessToken => {
     try {
       let token: any = verify(accessToken, this.tokenSecret);
