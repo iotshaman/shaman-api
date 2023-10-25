@@ -27,6 +27,12 @@ describe('ShamanAuthService', () => {
     sandbox.restore();
   });
 
+  describe('constructor', () => {
+    it('should throw an error if the token secret is not provided', () => {
+      expect(() => new ShamanAuthService(null)).to.throw('Token secret is required');
+    });
+  });
+
   describe('createUserAuthCode', () => {
     it('should create an auth code with the user email address and expiration date', () => {
       const user: User = {

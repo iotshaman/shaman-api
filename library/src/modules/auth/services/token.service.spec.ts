@@ -31,6 +31,12 @@ describe('TokenService', () => {
     sandbox.restore();
   });
 
+  describe('constructor', () => { 
+    it('should throw an error if the token secret is not provided', () => {
+      expect(() => new TokenService(null, userService)).to.throw('Token secret is required');
+    });
+  });
+
   describe('getAccessToken', () => {
     it('should return an access token with the user email address, permissions, and expiration date', async () => {
       const authCodeToken = 'fakeToken';
