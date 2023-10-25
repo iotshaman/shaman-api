@@ -1,17 +1,15 @@
 import * as chai from 'chai';
-import { expect, assert } from 'chai';
+import { assert, expect } from 'chai';
 import * as _jwt from 'jsonwebtoken';
-import * as moment from 'moment';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
+import { IUserDao } from '../exports';
 import { AccessToken } from '../models/auth/access-token';
 import { RefreshToken } from '../models/auth/refresh-token';
 import { UserPermissionMap } from '../models/auth/user-permission-map.model';
 import { User } from '../models/user.model';
 import { ITokenService, TokenService } from './token.service';
 import { IUserService, UserService } from './user.service';
-import { createMock } from 'ts-auto-mock';
-import { IUserDao } from '../exports';
 
 chai.use(sinonChai);
 

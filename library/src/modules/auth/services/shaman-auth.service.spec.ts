@@ -1,15 +1,14 @@
 import * as chai from 'chai';
+import { expect } from 'chai';
+import * as _jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { expect } from 'chai';
-import { ShamanAuthService, IShamanAuthService } from './shaman-auth.service';
-import { AuthStatusCode } from '../models/auth/auth-status-code';
-import { User } from '../models/user.model';
-import { TokenData } from '../models/auth/token-data';
 import * as _tokenFunctions from '../functions/token.functions';
-import { AuthCode } from '../models/auth/auth-code.model';
-import * as _jwt from 'jsonwebtoken';
 import { AccessToken } from '../models/auth/access-token';
+import { AuthStatusCode } from '../models/auth/auth-status-code';
+import { TokenData } from '../models/auth/token-data';
+import { User } from '../models/user.model';
+import { IShamanAuthService, ShamanAuthService } from './shaman-auth.service';
 
 chai.use(sinonChai);
 
