@@ -1,5 +1,5 @@
 {
-  "users": [
+  "data": [
     {
       "userId": 1,
       "emailAddress": "user1@example.com",

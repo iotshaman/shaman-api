@@ -1,5 +1,5 @@
 {
-  "permissions": [
+  "data": [
     {
       "permissionId": 1,
       "permissionName": "Admin"

@@ -1,24 +1,28 @@
 /* istanbul ignore file */
-import { Request, Response, Application, Router } from "express";
-import { injectable, inject } from "inversify";
-import { ShamanExpressController } from "shaman-api";
+import { Application, Request, Response, Router } from "express";
+import { inject, injectable } from "inversify";
+import { AuthorizeControllerBase, ILogger, IShamanAuthService, SHAMAN_API_TYPES, SHAMAN_AUTH_TYPES, ShamanExpressController } from "shaman-api";
 import { IUserService } from "../services/user.service";
 
 @injectable()
-export class UserController implements ShamanExpressController {
+export class UserController extends AuthorizeControllerBase implements ShamanExpressController {
 
   name: string = 'user';
 
   constructor(
-    @inject("UserService") private userService: IUserService
-  ) { }
+    @inject("UserDao") private userService: IUserService,
+    @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: IShamanAuthService,
+    @inject(SHAMAN_API_TYPES.Logger) private logger: ILogger,
+  ) {
+    super(authService, ['Admin']);
+  }
 
   configure = (express: Application) => {
     let router = Router();
     router
+      .get('/all', this.authorize, this.getAllUsers)
       .get('/:emailAddress', this.getUserByEmail)
-      .get('/:emailAddress/permission', this.getUserPermission)
-      .get('/test', this.test)
+      .get('/:emailAddress/permission', this.getUserPermissions)
 
     express.use('/api/user', router);
   }
@@ -28,23 +32,28 @@ export class UserController implements ShamanExpressController {
     this.userService.getUserByEmail(email)
       .then(user => res.json({ user: user }))
       .catch(err => {
-        console.error(err);
-        res.status(500).send()
+        this.logger.write(err.message, 'error');
+        res.status(500).send();
       });
   }
 
-  getUserPermission = (req: Request, res: Response, _next: any) => {
+  getUserPermissions = (req: Request, res: Response, _next: any) => {
     const email = req.params.emailAddress;
-    this.userService.getUserPermission(email)
+    this.userService.getUserPermissions(email)
       .then(permissions => res.json({ permissions: permissions }))
       .catch(err => {
-        console.error(err);
-        res.status(500).send()
+        this.logger.write(err.message, 'error');
+        res.status(500).send();
       });
-  
   }
 
-  test = (_req: Request, res: Response, _next: any) => {
-    res.status(200).json({ test: 'test' });
+  getAllUsers = (_req: Request, res: Response, _next: any) => {
+    this.userService.getAllUsers()
+      .then(users => res.json({ users: users }))
+      .catch(err => {
+        this.logger.write(err.message, 'error');
+        res.status(500).send();
+      });
   }
+
 }
