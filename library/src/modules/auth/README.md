@@ -145,6 +145,7 @@ Two endpoints are available within the Auth Controller:
 - `temporary: boolean`: A flag indicating whether the authorization code is temporary or not. In this case, it will always be `false`.
 
 **Description**  
+
 This endpoint is used to authenticate a user by checking their email and password. It expects a JSON request body with the `email` and `password` fields. If either of them is missing, it returns an error with a status code of 400. Otherwise, it calls the `authenticateUser` method of the `userService` object, passing in the email and password. If the authentication is successful, it creates an authorization code for the user using the `createUserAuthCode` method of the `authService` object and sends it back as a JSON response with a status code of 200. If the authentication fails, it returns an error with a status code of 401.
 
 ### Token
@@ -166,7 +167,7 @@ This endpoint is used to authenticate a user by checking their email and passwor
 - `accessTokenExpires: string`: The expiration date and time of the access token.
 - `refreshTokenExpires: string`: The expiration date and time of the refresh token.
 
-**Description**
+**Description**  
 
 This endpoint is used to retrieve a user's passport based on a grant type and authorization code or refresh token. It expects a JSON request body with the `grant_type` field, which can be either `code` or `refresh_token`, and either the `authorization_code` or `refresh_token` field, depending on the grant type. If the grant type is invalid or the required field is missing, it returns an error with a status code of 400. Otherwise, it calls the `getUserPassport` method of the `tokenService` object, passing in the authorization code or refresh token. If the passport retrieval is successful, it sends back the access token and refresh token as a JSON response with a status code of 200. If the passport retrieval fails, it returns an error with a status code of 401.
 
