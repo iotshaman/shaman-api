@@ -6,7 +6,7 @@
 	"private": true,
 	"scripts": {
 		"build": "tsc",
-		"debug": "cd ../library/ && tsc && cd ../sample/ && tsc && node dist/main.js",
+		"debug": "cd .. && shaman build && shaman serve shaman-api-sample",
 		"start": "node dist/main.js"
 	},
 	"author": "Shaman CLI",
