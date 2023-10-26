@@ -115,6 +115,8 @@ The shaman-api library includes a mechanism for grouping controllers / services 
 - Runtime segregation (for example, v1, v2, etc.)
 - Plugin interfaces
 - ...Plenty more
+  
+View modules included in the shaman-api library [here](https://github.com/iotshaman/shaman-api/tree/master/library/src/modules).
 
 The application module interface looks like this:
 
