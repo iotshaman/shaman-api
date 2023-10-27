@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "permissionId": 1,
+      "permissionName": "Admin"
+    },
+    {
+      "permissionId": 2,
+      "permissionName": "User"
+    },
+    {
+      "permissionId": 3,
+      "permissionName": "Guest"
+    }
+  ]
+}

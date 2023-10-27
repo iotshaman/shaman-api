@@ -4,4 +4,7 @@ export type ShamanExpressAppConfig = {
   headerAllowList?: string[];
   localOnly?: boolean;
   disableCors?: boolean;
+  auth?: {
+    tokenSecret?: string;
+  }
 }
