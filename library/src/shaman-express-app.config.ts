@@ -5,6 +5,9 @@ export type ShamanExpressAppConfig = {
   localOnly?: boolean;
   disableCors?: boolean;
   auth?: {
-    tokenSecret?: string;
+    tokenSecret: string;
+  };
+  dump?: {
+    allowUnsecureConnection: boolean;
   }
 }

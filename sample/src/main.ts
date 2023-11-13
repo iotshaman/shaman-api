@@ -5,6 +5,7 @@ import {
   JsonFileService,
   SHAMAN_API_TYPES,
   ShamanAuthModule,
+  ShamanDumpModule,
   ShamanExpressApp,
   ShamanExpressController
 } from 'shaman-api';
@@ -20,6 +21,8 @@ let bootstrap = async () => {
   const app = new ShamanExpressApp({ configPath: configPath, port: 5000 });
   let container = await app.compose();
 
+  let dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
+
   // compose services
   container.bind<IJsonService>(SHAMAN_API_TYPES.ApiService).to(JsonFileService);
   container.bind<SampleService>(SAMPLE_TYPES.SampleService).to(SampleService);
@@ -29,7 +32,11 @@ let bootstrap = async () => {
   container.bind<ShamanExpressController>(SHAMAN_API_TYPES.ApiController).to(HealthController);
   container.bind<ShamanExpressController>(SHAMAN_API_TYPES.ApiController).to(UserController);
 
-  await app.configureRouter([new ProxyWidgetModule(), new ShamanAuthModule(container.get(SAMPLE_TYPES.UserDao))]);
+  await app.configureRouter([
+    new ProxyWidgetModule(),
+    new ShamanAuthModule(container.get(SAMPLE_TYPES.UserDao)),
+    new ShamanDumpModule(dumpConfigPath)
+  ]);
   await app.startApplication();
 }
 
