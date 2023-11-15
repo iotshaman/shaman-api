@@ -1,3 +1,5 @@
+import { ShamanDumpConfig } from "./modules/dump/exports";
+
 export type ShamanExpressAppConfig = {
   configPath?: string;
   port?: number;
@@ -7,7 +9,5 @@ export type ShamanExpressAppConfig = {
   auth?: {
     tokenSecret: string;
   };
-  dump?: {
-    allowUnsecureConnection: boolean;
-  }
+  dump?: ShamanDumpConfig;
 }

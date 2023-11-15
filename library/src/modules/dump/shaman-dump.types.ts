@@ -1,7 +1,7 @@
 const SHAMAN_DUMP_TYPES = {
   DumpConfig: "DumpConfig",
   DumpController: "DumpController",
-  DumpService: "DumpService"
+  ShamanDumpService: "ShamanDumpService",
 };
 
 export { SHAMAN_DUMP_TYPES };

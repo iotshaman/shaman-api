@@ -13,7 +13,7 @@ export class ShamanDumpController implements ShamanExpressController {
 
   constructor(
     @inject(SHAMAN_DUMP_TYPES.DumpConfig) private dumpConfig: ShamanDumpConfig,
-    @inject(SHAMAN_DUMP_TYPES.DumpService) private dumpService: IShamanDumpService
+    @inject(SHAMAN_DUMP_TYPES.ShamanDumpService) private dumpService: IShamanDumpService
   ) { }
 
   configure = (express: Application): void => {

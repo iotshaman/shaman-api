@@ -1,16 +1,17 @@
 import { Container } from "inversify";
 import { SHAMAN_API_TYPES } from "../../composition.types";
+import { ConfigFactory } from "../../factories/config.factory";
 import { ShamanExpressAppConfig } from "../../shaman-express-app.config";
 import { ShamanExpressModule } from "../../shaman-express-module";
-import { ShamanDumpController } from "./shaman-dump.controller";
 import { ShamanDumpConfig } from "./models/shaman-dump.config";
-import { ConfigFactory } from "../../factories/config.factory";
-import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
 import { IShamanDumpService, ShamanDumpService } from "./services/shaman-dump.service";
+import { ShamanDumpController } from "./shaman-dump.controller";
+import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
 
 export class ShamanDumpModule extends ShamanExpressModule {
 
   name: string = 'shaman-dump';
+  private childContainer: Container;
 
   constructor(private configPath?: string) { super(); }
 
@@ -19,11 +20,20 @@ export class ShamanDumpModule extends ShamanExpressModule {
       .then(config => {
         container.bind<ShamanDumpConfig>(SHAMAN_DUMP_TYPES.DumpConfig).toConstantValue(config);
         container.bind<ShamanDumpController>(SHAMAN_API_TYPES.ApiController).to(ShamanDumpController);
-        container.bind<IShamanDumpService>(SHAMAN_DUMP_TYPES.DumpService)
-          .toConstantValue(new ShamanDumpService())
+        container.bind<IShamanDumpService>(SHAMAN_DUMP_TYPES.ShamanDumpService)
+          .toConstantValue(new ShamanDumpService());
+        this.childContainer = container;
         return Promise.resolve(container);
       });
   };
+
+  export = async (container: Container): Promise<void> => {
+    container.bind<IShamanDumpService>(SHAMAN_DUMP_TYPES.ShamanDumpService)
+      .toDynamicValue(() => {
+        return this.childContainer.get<IShamanDumpService>(SHAMAN_DUMP_TYPES.ShamanDumpService);
+      });
+  }
+
 
   private getDumpConfig = async (container: Container): Promise<ShamanDumpConfig> => {
     var config;
