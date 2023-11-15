@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { DatabaseConfig } from "../models/shaman-dump.config";
 import { IDumpService } from "./dump-services/dump-service.interface";
 import { JsonRepoDumpService } from "./dump-services/json-repo-dump.service";
+import { MysqlDumpService } from "./dump-services/mysql-dump.service";
 import { SqliteDumpService } from "./dump-services/sqlite-dump.service";
 
 export interface IShamanDumpService {
@@ -14,8 +15,9 @@ export class ShamanDumpService implements IShamanDumpService {
   constructor() { }
 
   private dumpServiceFactory: IDumpService[] = [
-    new SqliteDumpService(),
-    new JsonRepoDumpService()
+    new JsonRepoDumpService(),
+    new MysqlDumpService(),
+    new SqliteDumpService()
   ]
 
   getDump = (dbConfig: DatabaseConfig): Promise<string> => {
