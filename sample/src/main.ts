@@ -21,7 +21,7 @@ let bootstrap = async () => {
   const app = new ShamanExpressApp({ configPath: configPath, port: 5000 });
   let container = await app.compose();
 
-  let dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
+  const dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
 
   // compose services
   container.bind<IJsonService>(SHAMAN_API_TYPES.ApiService).to(JsonFileService);

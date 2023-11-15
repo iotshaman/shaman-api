@@ -1,6 +1,10 @@
 {
-  "allowInsecureConnection": true,
+  "allowUnsecureConnection": true,
   "databases": [
-    {}
+    {
+      "type": "json-repo",
+      "name": "myJsonRepo",
+      "filepath": ".\\data\\json-repo-db.json"
+    }
   ]
 }
