@@ -4,7 +4,7 @@
     {
       "type": "json-repo",
       "name": "myJsonRepo",
-      "filepath": ".\\data\\json-repo-db.json"
+      "filepath": "data/json-repo-db.json"
     }
   ]
 }
