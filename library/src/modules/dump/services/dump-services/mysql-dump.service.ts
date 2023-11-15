@@ -9,7 +9,7 @@ export class MysqlDumpService implements IDumpService {
 
   getDump = (dbConfig: DatabaseConfig): Promise<string> => {
     if (!this.validConfig(dbConfig))
-      return Promise.reject(new Error(`Invalid config for mysql dump service. Database name, username and password are required.`));
+      return Promise.reject(new Error('Invalid config for mysql dump service. Database name, username and password are required.'));
     return new Promise((resolve, reject) => {
       let tmpDir = _os.tmpdir();
       let command = `mysqldump -u ${dbConfig.username} -p${dbConfig.password} ${dbConfig.name} > ${tmpDir}/${dbConfig.name}.sql`;

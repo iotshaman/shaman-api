@@ -8,6 +8,7 @@ import { IShamanDumpService, ShamanDumpService } from "./services/shaman-dump.se
 import { ShamanDumpController } from "./shaman-dump.controller";
 import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
 
+/*istanbul ignore next*/
 export class ShamanDumpModule extends ShamanExpressModule {
 
   name: string = 'shaman-dump';

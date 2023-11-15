@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 import { Application, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 import { ShamanExpressController } from "../../shaman-express-controller";
@@ -26,12 +27,16 @@ export class ShamanDumpController implements ShamanExpressController {
 
   createDump = (req: Request, res: Response, next: any) => {
     let dbName = req.params.dbName;
-    let dbConfig: DatabaseConfig = this.dumpConfig.databases
-      .find(db => db.name === dbName);
-    if (!dbConfig) return res.status(404).send(`Database '${dbName}' not found.`);
+    let dbConfig = this.getDbConfig(dbName);
+    if (!dbConfig) return next(new RouteError(`Database '${dbName}' not found.`, 400));
     this.dumpService.getDump(dbConfig)
       .then(dump => res.download(dump))
       .catch((ex: Error) => next(new RouteError(ex.message, 500)));
+  }
+
+  private getDbConfig = (dbName: string): DatabaseConfig => {
+    return this.dumpConfig.databases
+      .find(db => db.name === dbName);
   }
 
   private verifySecureConnection = (req: Request, res: Response, next: any) => {

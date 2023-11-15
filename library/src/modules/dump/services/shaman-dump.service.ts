@@ -14,7 +14,7 @@ export class ShamanDumpService implements IShamanDumpService {
 
   constructor() { }
 
-  private dumpServiceFactory: IDumpService[] = [
+  dumpServiceFactory: IDumpService[] = [
     new JsonRepoDumpService(),
     new MysqlDumpService(),
     new SqliteDumpService()

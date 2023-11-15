@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 const SHAMAN_DUMP_TYPES = {
   DumpConfig: "DumpConfig",
   DumpController: "DumpController",

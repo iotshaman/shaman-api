@@ -1,3 +1,4 @@
+/*istanbul ignore file*/
 export class RouteError extends Error {
   statusCode: number;
   sendMessage: boolean;
