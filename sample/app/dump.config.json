@@ -1,3 +1,6 @@
 {
-  "allowInsecureConnection": true
+  "allowInsecureConnection": true,
+  "databases": [
+    {}
+  ]
 }

@@ -6,6 +6,7 @@ import { ShamanDumpController } from "./shaman-dump.controller";
 import { ShamanDumpConfig } from "./models/shaman-dump.config";
 import { ConfigFactory } from "../../factories/config.factory";
 import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
+import { IShamanDumpService, ShamanDumpService } from "./services/shaman-dump.service";
 
 export class ShamanDumpModule extends ShamanExpressModule {
 
@@ -13,12 +14,13 @@ export class ShamanDumpModule extends ShamanExpressModule {
 
   constructor(private configPath?: string) { super(); }
 
-  // TODO: implement this
   compose = (container: Container): Promise<Container> => {
     return this.getDumpConfig(container)
       .then(config => {
         container.bind<ShamanDumpConfig>(SHAMAN_DUMP_TYPES.DumpConfig).toConstantValue(config);
         container.bind<ShamanDumpController>(SHAMAN_API_TYPES.ApiController).to(ShamanDumpController);
+        container.bind<IShamanDumpService>(SHAMAN_DUMP_TYPES.DumpService)
+          .toConstantValue(new ShamanDumpService())
         return Promise.resolve(container);
       });
   };
