@@ -1,5 +1,5 @@
 export type ShamanDumpConfig = {
-  allowInsecureConnection?: boolean;
+  allowUnsecureConnection?: boolean;
   databases: DatabaseConfig[];
 }
 

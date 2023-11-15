@@ -35,7 +35,7 @@ export class ShamanDumpController implements ShamanExpressController {
   }
 
   private verifySecureConnection = (req: Request, res: Response, next: any) => {
-    if (this.dumpConfig.allowInsecureConnection) return next();
+    if (this.dumpConfig.allowUnsecureConnection) return next();
     if (req.secure) return next();
     res.status(403).send('Insecure connection.');
   }
