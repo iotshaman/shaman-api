@@ -12,7 +12,7 @@ export class JsonRepoDumpService implements IDumpService {
   };
 
   private validConfig = (dbConfig: DatabaseConfig): boolean => {
-    return dbConfig.type === 'sqlite' &&
+    return dbConfig.type === 'json-repo' &&
       dbConfig.filepath !== undefined;
   }
 
