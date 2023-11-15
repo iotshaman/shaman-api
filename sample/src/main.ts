@@ -17,11 +17,11 @@ import { UserService } from './services/user.service';
 import { ProxyWidgetModule } from "./widgets/proxy-widget/proxy-widget.module";
 
 let bootstrap = async () => {
-  let configPath = _path.join(__dirname, '..', 'app', 'config.json');
+  const configPath = _path.join(__dirname, '..', 'app', 'config.json');
+  const dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
   const app = new ShamanExpressApp({ configPath: configPath, port: 5000 });
   let container = await app.compose();
 
-  const dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
 
   // compose services
   container.bind<IJsonService>(SHAMAN_API_TYPES.ApiService).to(JsonFileService);
