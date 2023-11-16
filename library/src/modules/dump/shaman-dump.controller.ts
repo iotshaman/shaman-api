@@ -20,12 +20,12 @@ export class ShamanDumpController implements ShamanExpressController {
   configure = (express: Application): void => {
     let router = Router();
     router
-      .get('/:dbName', this.verifySecureConnection, this.createDump)
+      .get('/:dbName', this.verifySecureConnection, this.getDump)
 
     express.use('/api/dump', router);
   };
 
-  createDump = (req: Request, res: Response, next: any) => {
+  getDump = (req: Request, res: Response, next: any) => {
     let dbName = req.params.dbName;
     let dbConfig = this.getDbConfig(dbName);
     if (!dbConfig) return next(new RouteError(`Database '${dbName}' not found.`, 400));
