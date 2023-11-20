@@ -1,26 +1,30 @@
 /*istanbul ignore file*/
 import { Application, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
+import { RouteError } from "../../models/router-error";
 import { ShamanExpressController } from "../../shaman-express-controller";
+import { AuthorizeControllerBase } from "../auth/authorize.controller.base";
+import { ShamanAuthService } from "../auth/exports";
+import { SHAMAN_AUTH_TYPES } from "../auth/shaman-auth.types";
 import { DatabaseConfig, ShamanDumpConfig } from "./models/shaman-dump.config";
 import { IShamanDumpService } from "./services/shaman-dump.service";
 import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
-import { RouteError } from "../../models/router-error";
 
 @injectable()
-export class ShamanDumpController implements ShamanExpressController {
+export class ShamanDumpController extends AuthorizeControllerBase implements ShamanExpressController {
 
   name: string = 'shaman-dump.controller';
 
   constructor(
     @inject(SHAMAN_DUMP_TYPES.DumpConfig) private dumpConfig: ShamanDumpConfig,
-    @inject(SHAMAN_DUMP_TYPES.ShamanDumpService) private dumpService: IShamanDumpService
-  ) { }
+    @inject(SHAMAN_DUMP_TYPES.ShamanDumpService) private dumpService: IShamanDumpService,
+    @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: ShamanAuthService
+  ) { super(authService, []) }
 
   configure = (express: Application): void => {
     let router = Router();
     router
-      .get('/:dbName', this.verifySecureConnection, this.getDump)
+      .get('/:dbName', this.verifySecureConnection, this.authorize, this.getDump)
 
     express.use('/api/dump', router);
   };
