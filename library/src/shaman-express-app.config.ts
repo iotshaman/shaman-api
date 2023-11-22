@@ -1,4 +1,4 @@
-import { ShamanDumpConfig } from "./modules/dump/exports";
+import { ShamanBackupConfig } from "./modules/backup/exports";
 
 export type ShamanExpressAppConfig = {
   configPath?: string;
@@ -9,5 +9,5 @@ export type ShamanExpressAppConfig = {
   auth?: {
     tokenSecret: string;
   };
-  dump?: ShamanDumpConfig;
+  backup?: ShamanBackupConfig;
 }

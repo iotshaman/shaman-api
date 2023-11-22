@@ -4,18 +4,17 @@ import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import * as _os from 'os';
 import * as _cmd from 'child_process';
-import { MysqlDumpService } from './mysql-dump.service';
-import e = require('express');
+import { MysqlBackupService } from './mysql-backup.service';
 
 
 chai.use(sinonChai);
 
-describe('MysqlDumpService', () => {
+describe('MysqlBackupService', () => {
   let sandbox: sinon.SinonSandbox;
-  let mysqlDumpService: MysqlDumpService;
+  let mysqlBackupService: MysqlBackupService;
 
   beforeEach(() => {
-    mysqlDumpService = new MysqlDumpService();
+    mysqlBackupService = new MysqlBackupService();
     sandbox = sinon.createSandbox();
   });
 
@@ -23,15 +22,15 @@ describe('MysqlDumpService', () => {
     sandbox.restore();
   });
 
-  describe('getDump', () => {
+  describe('getBackup', () => {
     it('should throw an error if config is invalid', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name' };
-      mysqlDumpService.getDump(dbConfig)
+      mysqlBackupService.getBackup(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
         .catch(err => {
-          expect(err.message).to.equal('Invalid config for mysql dump service. Database name, username and password are required.');
+          expect(err.message).to.equal('Invalid config for mysql backup service. Database name, username and password are required.');
           done();
         });
     });
@@ -39,7 +38,7 @@ describe('MysqlDumpService', () => {
     it('should throw an error is exec returns an error', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name', username: 'test-username', password: 'test-password' };
       sandbox.stub(_cmd, 'exec').yields({ message: 'error from exec' }, null, null);
-      mysqlDumpService.getDump(dbConfig)
+      mysqlBackupService.getBackup(dbConfig)
         .then(_ => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -49,12 +48,12 @@ describe('MysqlDumpService', () => {
         });
     });
 
-    it('should return the filepath for the generated mysql dump', (done) => {
+    it('should return the filepath for the generated mysql backup', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name', username: 'test-username', password: 'test-password' };
       sandbox.stub(_cmd, 'exec').yields(null, null, null);
-      mysqlDumpService.getDump(dbConfig)
-        .then(dump => {
-          expect(dump).to.equal(`${_os.tmpdir()}/test-name.sql`);
+      mysqlBackupService.getBackup(dbConfig)
+        .then(backup => {
+          expect(backup).to.equal(`${_os.tmpdir()}/test-name.sql`);
           done();
         })
         .catch(err => {

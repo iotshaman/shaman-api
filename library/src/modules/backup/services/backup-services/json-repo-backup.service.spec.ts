@@ -2,17 +2,17 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { SqliteDumpService } from './sqlite-dump.service';
+import { JsonRepoBackupService } from './json-repo-backup.service';
 
 
 chai.use(sinonChai);
 
-describe('SqliteDumpService', () => {
+describe('JsonRepoBackupService', () => {
   let sandbox: sinon.SinonSandbox;
-  let sqliteDumpService: SqliteDumpService;
+  let jsonRepoBackupService: JsonRepoBackupService;
 
   beforeEach(() => {
-    sqliteDumpService = new SqliteDumpService();
+    jsonRepoBackupService = new JsonRepoBackupService();
     sandbox = sinon.createSandbox();
   });
 
@@ -20,24 +20,24 @@ describe('SqliteDumpService', () => {
     sandbox.restore();
   });
 
-  describe('getDump', () => {
+  describe('getBackup', () => {
     it('should throw an error if config is invalid', (done) => {
-      let dbConfig = { type: 'sqlite', name: 'test-name' };
-      sqliteDumpService.getDump(dbConfig)
+      let dbConfig = { type: 'json-repo', name: 'test-name' };
+      jsonRepoBackupService.getBackup(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
         .catch(err => {
-          expect(err.message).to.equal(`Invalid config for sqlite dump service. Filepath is required.`);
+          expect(err.message).to.equal(`Invalid config for json-repo backup service. Filepath is required.`);
           done();
         });
     });
 
     it('should return the filepath from the dbConfig', (done) => {
-      let dbConfig = { type: 'sqlite', name: 'test-name', filepath: 'test-filepath' };
-      sqliteDumpService.getDump(dbConfig)
-        .then(dump => {
-          expect(dump).to.equal('test-filepath');
+      let dbConfig = { type: 'json-repo', name: 'test-name', filepath: 'test-filepath' };
+      jsonRepoBackupService.getBackup(dbConfig)
+        .then(backup => {
+          expect(backup).to.equal('test-filepath');
           done();
         })
         .catch(err => {

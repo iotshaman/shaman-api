@@ -2,17 +2,17 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { JsonRepoDumpService } from './json-repo-dump.service';
+import { SqliteBackupService } from './sqlite-backup.service';
 
 
 chai.use(sinonChai);
 
-describe('JsonRepoDumpService', () => {
+describe('SqliteBackupService', () => {
   let sandbox: sinon.SinonSandbox;
-  let jsonRepoDumpService: JsonRepoDumpService;
+  let sqliteBackupService: SqliteBackupService;
 
   beforeEach(() => {
-    jsonRepoDumpService = new JsonRepoDumpService();
+    sqliteBackupService = new SqliteBackupService();
     sandbox = sinon.createSandbox();
   });
 
@@ -20,24 +20,24 @@ describe('JsonRepoDumpService', () => {
     sandbox.restore();
   });
 
-  describe('getDump', () => {
+  describe('getBackup', () => {
     it('should throw an error if config is invalid', (done) => {
-      let dbConfig = { type: 'json-repo', name: 'test-name' };
-      jsonRepoDumpService.getDump(dbConfig)
+      let dbConfig = { type: 'sqlite', name: 'test-name' };
+      sqliteBackupService.getBackup(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
         .catch(err => {
-          expect(err.message).to.equal(`Invalid config for json-repo dump service. Filepath is required.`);
+          expect(err.message).to.equal(`Invalid config for sqlite backup service. Filepath is required.`);
           done();
         });
     });
 
     it('should return the filepath from the dbConfig', (done) => {
-      let dbConfig = { type: 'json-repo', name: 'test-name', filepath: 'test-filepath' };
-      jsonRepoDumpService.getDump(dbConfig)
-        .then(dump => {
-          expect(dump).to.equal('test-filepath');
+      let dbConfig = { type: 'sqlite', name: 'test-name', filepath: 'test-filepath' };
+      sqliteBackupService.getBackup(dbConfig)
+        .then(backup => {
+          expect(backup).to.equal('test-filepath');
           done();
         })
         .catch(err => {

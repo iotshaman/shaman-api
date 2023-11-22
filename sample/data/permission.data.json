@@ -14,7 +14,7 @@
     },
     {
       "permissionId": 4,
-      "permissionName": "dump"
+      "permissionName": "backup"
     }
   ]
 }

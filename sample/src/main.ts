@@ -5,7 +5,7 @@ import {
   JsonFileService,
   SHAMAN_API_TYPES,
   ShamanAuthModule,
-  ShamanDumpModule,
+  ShamanBackupModule,
   ShamanExpressApp,
   ShamanExpressController
 } from 'shaman-api';
@@ -18,7 +18,7 @@ import { ProxyWidgetModule } from "./widgets/proxy-widget/proxy-widget.module";
 
 let bootstrap = async () => {
   const configPath = _path.join(__dirname, '..', 'app', 'config.json');
-  const dumpConfigPath = _path.join(__dirname, '..', 'app', 'dump.config.json');
+  const backupConfigPath = _path.join(__dirname, '..', 'app', 'backup.config.json');
   const app = new ShamanExpressApp({ configPath: configPath, port: 5000 });
   let container = await app.compose();
 
@@ -35,7 +35,7 @@ let bootstrap = async () => {
   await app.configureRouter([
     new ProxyWidgetModule(),
     new ShamanAuthModule(container.get(SAMPLE_TYPES.UserDao)),
-    new ShamanDumpModule(dumpConfigPath)
+    new ShamanBackupModule(backupConfigPath)
   ]);
   await app.startApplication();
 }

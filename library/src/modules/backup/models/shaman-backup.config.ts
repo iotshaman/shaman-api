@@ -1,4 +1,4 @@
-export type ShamanDumpConfig = {
+export type ShamanBackupConfig = {
   allowUnsecureConnection?: boolean;
   databases: DatabaseConfig[];
 }

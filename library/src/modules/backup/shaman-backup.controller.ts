@@ -6,45 +6,45 @@ import { ShamanExpressController } from "../../shaman-express-controller";
 import { AuthorizeControllerBase } from "../auth/authorize.controller.base";
 import { ShamanAuthService } from "../auth/exports";
 import { SHAMAN_AUTH_TYPES } from "../auth/shaman-auth.types";
-import { DatabaseConfig, ShamanDumpConfig } from "./models/shaman-dump.config";
-import { IShamanDumpService } from "./services/shaman-dump.service";
-import { SHAMAN_DUMP_TYPES } from "./shaman-dump.types";
+import { DatabaseConfig, ShamanBackupConfig } from "./models/shaman-backup.config";
+
+import { IShamanBackupService, SHAMAN_BACKUP_TYPES } from "./exports";
 
 @injectable()
-export class ShamanDumpController extends AuthorizeControllerBase implements ShamanExpressController {
+export class ShamanBackupController extends AuthorizeControllerBase implements ShamanExpressController {
 
-  name: string = 'shaman-dump.controller';
+  name: string = 'shaman-backup.controller';
 
   constructor(
-    @inject(SHAMAN_DUMP_TYPES.DumpConfig) private dumpConfig: ShamanDumpConfig,
-    @inject(SHAMAN_DUMP_TYPES.ShamanDumpService) private dumpService: IShamanDumpService,
+    @inject(SHAMAN_BACKUP_TYPES.BackupConfig) private backupConfig: ShamanBackupConfig,
+    @inject(SHAMAN_BACKUP_TYPES.ShamanBackupService) private backupService: IShamanBackupService,
     @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: ShamanAuthService
-  ) { super(authService, ['dump']) }
+  ) { super(authService, ['backup']) }
 
   configure = (express: Application): void => {
     let router = Router();
     router
-      .get('/:dbName', this.verifySecureConnection, this.authorize, this.getDump)
+      .get('/:dbName', this.verifySecureConnection, this.authorize, this.getBackup)
 
-    express.use('/api/dump', router);
+    express.use('/api/backup', router);
   };
 
-  getDump = (req: Request, res: Response, next: any) => {
+  getBackup = (req: Request, res: Response, next: any) => {
     let dbName = req.params.dbName;
     let dbConfig = this.getDbConfig(dbName);
     if (!dbConfig) return next(new RouteError(`Database '${dbName}' not found.`, 400));
-    this.dumpService.getDump(dbConfig)
-      .then(dump => res.download(dump))
+    this.backupService.getBackup(dbConfig)
+      .then(backup => res.download(backup))
       .catch((ex: Error) => next(new RouteError(ex.message, 500)));
   }
 
   private getDbConfig = (dbName: string): DatabaseConfig => {
-    return this.dumpConfig.databases
+    return this.backupConfig.databases
       .find(db => db.name === dbName);
   }
 
   private verifySecureConnection = (req: Request, res: Response, next: any) => {
-    if (this.dumpConfig.allowUnsecureConnection) return next();
+    if (this.backupConfig.allowUnsecureConnection) return next();
     if (req.secure) return next();
     res.status(403).send('Insecure connection.');
   }
