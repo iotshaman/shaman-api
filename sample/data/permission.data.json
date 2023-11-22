@@ -2,15 +2,19 @@
   "data": [
     {
       "permissionId": 1,
-      "permissionName": "Admin"
+      "permissionName": "admin"
     },
     {
       "permissionId": 2,
-      "permissionName": "User"
+      "permissionName": "user"
     },
     {
       "permissionId": 3,
-      "permissionName": "Guest"
+      "permissionName": "guest"
+    },
+    {
+      "permissionId": 4,
+      "permissionName": "dump"
     }
   ]
 }

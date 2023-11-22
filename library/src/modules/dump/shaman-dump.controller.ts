@@ -19,7 +19,7 @@ export class ShamanDumpController extends AuthorizeControllerBase implements Sha
     @inject(SHAMAN_DUMP_TYPES.DumpConfig) private dumpConfig: ShamanDumpConfig,
     @inject(SHAMAN_DUMP_TYPES.ShamanDumpService) private dumpService: IShamanDumpService,
     @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: ShamanAuthService
-  ) { super(authService, []) }
+  ) { super(authService, ['dump']) }
 
   configure = (express: Application): void => {
     let router = Router();

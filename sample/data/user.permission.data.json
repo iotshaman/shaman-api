@@ -18,12 +18,12 @@
     {
       "userPermissionId": 4,
       "userId": 3,
-      "permissionId": 2
+      "permissionId": 1
     },
     {
       "userPermissionId": 4,
       "userId": 3,
-      "permissionId": 3
+      "permissionId": 4
     }
   ]
 }
