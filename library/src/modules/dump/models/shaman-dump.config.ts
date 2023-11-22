@@ -9,5 +9,4 @@ export type DatabaseConfig = {
   filepath?: string;
   username?: string;
   password?: string;
-  tables?: string[];
 }
