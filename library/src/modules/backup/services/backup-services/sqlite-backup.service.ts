@@ -13,7 +13,7 @@ export class SqliteBackupService implements IBackupService {
 
   private validConfig = (dbConfig: DatabaseConfig): boolean => {
     return dbConfig.type === 'sqlite' &&
-      dbConfig.filepath !== undefined;
+      !!dbConfig.filepath;
   }
 
 }

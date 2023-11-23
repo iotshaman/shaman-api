@@ -7,8 +7,8 @@ import { AuthorizeControllerBase } from "../auth/authorize.controller.base";
 import { ShamanAuthService } from "../auth/exports";
 import { SHAMAN_AUTH_TYPES } from "../auth/shaman-auth.types";
 import { DatabaseConfig, ShamanBackupConfig } from "./models/shaman-backup.config";
-
-import { IShamanBackupService, SHAMAN_BACKUP_TYPES } from "./exports";
+import { IShamanBackupService } from "./services/shaman-backup.service";
+import { SHAMAN_BACKUP_TYPES } from "./shaman-backup.types";
 
 @injectable()
 export class ShamanBackupController extends AuthorizeControllerBase implements ShamanExpressController {
