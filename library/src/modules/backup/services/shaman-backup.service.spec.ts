@@ -4,19 +4,20 @@ import * as _fs from 'fs';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 
-import { DatabaseConfig } from '../exports';
+import { DatabaseConfig, ShamanBackupConfig } from '../exports';
 import { IBackupService } from './backup-services/backup-service.interface';
 import { ShamanBackupService } from './shaman-backup.service';
-
 
 chai.use(sinonChai);
 
 describe('ShamanBackupService', () => {
   let sandbox: sinon.SinonSandbox;
+  let backupConfig: ShamanBackupConfig;
   let shamanBackupService: ShamanBackupService;
 
   beforeEach(() => {
-    shamanBackupService = new ShamanBackupService();
+    backupConfig = new MockBackupConfig();
+    shamanBackupService = new ShamanBackupService(backupConfig);
     shamanBackupService.backupServicesArray = [new MockBackupService()];
     sandbox = sinon.createSandbox();
   });
@@ -26,28 +27,32 @@ describe('ShamanBackupService', () => {
   });
 
   describe('getBackup', () => {
-    it('should throw an error if backup service not found', (done) => {
-      let dbConfig: DatabaseConfig = {
-        "type": "type-not-found",
-        "name": "test-name"
-      };
-      shamanBackupService.getBackup(dbConfig)
+    it('should throw an error if database config not found', (done) => {
+      shamanBackupService.getBackup('test-error-name')
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
         .catch(err => {
-          expect(err.message).to.equal(`Backup service '${dbConfig.type}' not found.`);
+          expect(err.message).to.equal(`Database 'test-error-name' not found.`);
+          done();
+        })
+    });
+
+    it('should throw an error if backup service not found', (done) => {
+      shamanBackupService.backupServicesArray = [];
+      shamanBackupService.getBackup('test-name')
+        .then(() => {
+          done('Expected an error to be thrown but promise resolved.');
+        })
+        .catch(err => {
+          expect(err.message).to.equal(`Backup service 'test-db-type' not found.`);
           done();
         });
     });
 
     it('should throw an error if backup file not found', (done) => {
-      let dbConfig: DatabaseConfig = {
-        "type": "test-db-type",
-        "name": "test-name"
-      };
       sandbox.stub(_fs, 'existsSync').returns(false);
-      shamanBackupService.getBackup(dbConfig)
+      shamanBackupService.getBackup('test-name')
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -58,12 +63,8 @@ describe('ShamanBackupService', () => {
     });
 
     it('should return a backup file path', (done) => {
-      let dbConfig: DatabaseConfig = {
-        "type": "test-db-type",
-        "name": "test-name"
-      };
       sandbox.stub(_fs, 'existsSync').returns(true);
-      shamanBackupService.getBackup(dbConfig)
+      shamanBackupService.getBackup('test-name')
         .then(backup => {
           expect(backup).to.equal('mock-backup.path');
           done();
@@ -76,9 +77,19 @@ describe('ShamanBackupService', () => {
   });
 });
 
+class MockBackupConfig implements ShamanBackupConfig {
+  allowUnsecureConnection: boolean = false;
+  databases: DatabaseConfig[] = [
+    {
+      "type": "test-db-type",
+      "name": "test-name"
+    }
+  ];
+}
+
 class MockBackupService implements IBackupService {
   type: string = 'test-db-type';
-  getBackup = (dbConfig: DatabaseConfig): Promise<string> => {
+  getBackup = (_dbConfig: DatabaseConfig): Promise<string> => {
     return Promise.resolve('mock-backup.path');
   };
 }
