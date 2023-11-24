@@ -1,15 +1,19 @@
-/*istanbul ignore file*/
 import { Container } from "inversify";
+import { SHAMAN_API_TYPES } from "../../composition.types";
 import { ConfigFactory } from "../../factories/config.factory";
 import { ShamanExpressAppConfig } from "../../shaman-express-app.config";
 import { ShamanExpressModule } from "../../shaman-express-module";
-import { ShamanBackupConfig } from "./models/shaman-backup.config";
-import { IShamanBackupService, ShamanBackupService } from "./services/shaman-backup.service";
-import { ShamanBackupController } from "./shaman-backup.controller";
-import { SHAMAN_API_TYPES } from "../../composition.types";
 import { SHAMAN_BACKUP_TYPES } from "./exports";
 import { ShamanBackupMiddleware } from "./middleware/shaman-backup.middleware";
+import { ShamanBackupConfig } from "./models/shaman-backup.config";
+import { IDatabaseService } from "./services/database-services/backup-service.interface";
+import { JsonRepoBackupService } from "./services/database-services/json-repo.service";
+import { MysqlBackupService } from "./services/database-services/mysql.service";
+import { SqliteBackupService } from "./services/database-services/sqlite.service";
+import { IShamanBackupService, ShamanBackupService } from "./services/shaman-backup.service";
+import { ShamanBackupController } from "./shaman-backup.controller";
 
+/* istanbul ignore next */
 export class ShamanBackupModule extends ShamanExpressModule {
 
   name: string = 'shaman-backup';
@@ -21,10 +25,11 @@ export class ShamanBackupModule extends ShamanExpressModule {
     let backupConfig: ShamanBackupConfig = await this.getBackupConfig(container);
     container.bind<ShamanBackupConfig>(SHAMAN_BACKUP_TYPES.BackupConfig)
       .toConstantValue(backupConfig);
-    container.bind<IShamanBackupService>(SHAMAN_BACKUP_TYPES.ShamanBackupService)
-      .toConstantValue(new ShamanBackupService(backupConfig));
-    container.bind<ShamanBackupMiddleware>('ShamanBackupMiddleware')
-      .toConstantValue(new ShamanBackupMiddleware(backupConfig));
+    container.bind<IDatabaseService>(SHAMAN_BACKUP_TYPES.DatabaseService).to(JsonRepoBackupService);
+    container.bind<IDatabaseService>(SHAMAN_BACKUP_TYPES.DatabaseService).to(MysqlBackupService);
+    container.bind<IDatabaseService>(SHAMAN_BACKUP_TYPES.DatabaseService).to(SqliteBackupService);
+    container.bind<IShamanBackupService>(SHAMAN_BACKUP_TYPES.ShamanBackupService).to(ShamanBackupService);
+    container.bind<ShamanBackupMiddleware>(SHAMAN_BACKUP_TYPES.BackupMiddleware).to(ShamanBackupMiddleware);
     container.bind<ShamanBackupController>(SHAMAN_API_TYPES.ApiController).to(ShamanBackupController);
     this.childContainer = container;
     return Promise.resolve(container);
@@ -36,7 +41,6 @@ export class ShamanBackupModule extends ShamanExpressModule {
         return this.childContainer.get<IShamanBackupService>(SHAMAN_BACKUP_TYPES.ShamanBackupService);
       });
   }
-
 
   private getBackupConfig = async (container: Container): Promise<ShamanBackupConfig> => {
     var config;

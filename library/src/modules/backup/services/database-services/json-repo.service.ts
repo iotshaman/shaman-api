@@ -1,7 +1,9 @@
+import { injectable } from "inversify";
 import { DatabaseConfig } from "../../models/shaman-backup.config";
-import { IBackupService } from "./backup-service.interface";
+import { IDatabaseService } from "./backup-service.interface";
 
-export class JsonRepoBackupService implements IBackupService {
+@injectable()
+export class JsonRepoBackupService implements IDatabaseService {
 
   type: string = 'json-repo';
 

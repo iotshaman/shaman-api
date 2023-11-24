@@ -2,6 +2,8 @@
 const SHAMAN_BACKUP_TYPES = {
   BackupConfig: "BackupConfig",
   BackupController: "BackupController",
+  BackupMiddleware: "BackupMiddleware",
+  DatabaseService: "DatabaseService",
   ShamanBackupService: "ShamanBackupService",
 };
 

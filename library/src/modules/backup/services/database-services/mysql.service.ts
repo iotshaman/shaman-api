@@ -1,9 +1,11 @@
 import { exec } from "child_process";
 import * as _os from "os";
 import { DatabaseConfig } from "../../models/shaman-backup.config";
-import { IBackupService } from "./backup-service.interface";
+import { IDatabaseService } from "./backup-service.interface";
+import { injectable } from "inversify";
 
-export class MysqlBackupService implements IBackupService {
+@injectable()
+export class MysqlBackupService implements IDatabaseService {
 
   type: string = 'mysql';
 

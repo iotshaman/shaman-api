@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import * as _os from 'os';
 import * as _cmd from 'child_process';
-import { MysqlBackupService } from './mysql-backup.service';
+import { MysqlBackupService } from './mysql.service';
 
 
 chai.use(sinonChai);

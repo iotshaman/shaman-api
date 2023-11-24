@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { SqliteBackupService } from './sqlite-backup.service';
+import { SqliteBackupService } from './sqlite.service';
 
 
 chai.use(sinonChai);

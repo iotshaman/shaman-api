@@ -1,95 +1,73 @@
-import * as chai from 'chai';
 import { expect } from 'chai';
-import * as _fs from 'fs';
 import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-
-import { DatabaseConfig, ShamanBackupConfig } from '../exports';
-import { IBackupService } from './backup-services/backup-service.interface';
 import { ShamanBackupService } from './shaman-backup.service';
-
-chai.use(sinonChai);
+import { DatabaseConfig, ShamanBackupConfig } from "../models/shaman-backup.config";
+import { IDatabaseService } from "./database-services/backup-service.interface";
+import * as _fs from 'fs';
 
 describe('ShamanBackupService', () => {
-  let sandbox: sinon.SinonSandbox;
-  let backupConfig: ShamanBackupConfig;
-  let shamanBackupService: ShamanBackupService;
+  let service: ShamanBackupService;
+  let mockDatabaseService: sinon.SinonStubbedInstance<IDatabaseService>;
+  let mockFs: sinon.SinonStubbedInstance<typeof _fs>;
 
   beforeEach(() => {
-    backupConfig = new MockBackupConfig();
-    shamanBackupService = new ShamanBackupService(backupConfig);
-    shamanBackupService.backupServicesArray = [new MockBackupService()];
-    sandbox = sinon.createSandbox();
+    mockDatabaseService = sinon.stub(new MockDatabaseService());
+    mockFs = sinon.stub(_fs);
+    service = new ShamanBackupService(
+      <ShamanBackupConfig>{ databases: [{ name: 'testDb', type: 'testType' }] },
+      [mockDatabaseService]
+    );
   });
 
   afterEach(() => {
-    sandbox.restore();
+    sinon.restore();
   });
 
-  describe('getBackup', () => {
-    it('should throw an error if database config not found', (done) => {
-      shamanBackupService.getBackup('test-error-name')
-        .then(() => {
-          done('Expected an error to be thrown but promise resolved.');
-        })
-        .catch(err => {
-          expect(err.message).to.equal(`Database 'test-error-name' not found.`);
-          done();
-        })
-    });
+  it('should return backup path when database exists and backup is successful', async () => {
+    mockDatabaseService.getBackup.resolves('testPath');
+    mockFs.existsSync.returns(true);
 
-    it('should throw an error if backup service not found', (done) => {
-      shamanBackupService.backupServicesArray = [];
-      shamanBackupService.getBackup('test-name')
-        .then(() => {
-          done('Expected an error to be thrown but promise resolved.');
-        })
-        .catch(err => {
-          expect(err.message).to.equal(`Backup service 'test-db-type' not found.`);
-          done();
-        });
-    });
+    const result = await service.getBackup('testDb');
 
-    it('should throw an error if backup file not found', (done) => {
-      sandbox.stub(_fs, 'existsSync').returns(false);
-      shamanBackupService.getBackup('test-name')
-        .then(() => {
-          done('Expected an error to be thrown but promise resolved.');
-        })
-        .catch(err => {
-          expect(err.message).to.equal("Backup file 'mock-backup.path' not found.");
-          done();
-        });
-    });
+    expect(result).to.equal('testPath');
+  });
 
-    it('should return a backup file path', (done) => {
-      sandbox.stub(_fs, 'existsSync').returns(true);
-      shamanBackupService.getBackup('test-name')
-        .then(backup => {
-          expect(backup).to.equal('mock-backup.path');
-          done();
-        })
-        .catch(err => {
-          done(err);
-        });
-    });
+  it('should throw error when database does not exist', async () => {
+    try {
+      await service.getBackup('nonexistentDb');
+    } catch (err) {
+      expect(err.message).to.equal("Database 'nonexistentDb' not found.");
+    }
+  });
 
+  it('should throw error when backup service does not exist', async () => {
+    service = new ShamanBackupService(
+      <ShamanBackupConfig>{ databases: [{ name: 'testDb', type: 'nonexistentType' }] },
+      [mockDatabaseService]
+    );
+
+    try {
+      await service.getBackup('testDb');
+    } catch (err) {
+      expect(err.message).to.equal("Backup service 'nonexistentType' not found.");
+    }
+  });
+
+  it('should throw error when backup file does not exist', async () => {
+    mockDatabaseService.getBackup.resolves('testPath');
+    mockFs.existsSync.returns(false);
+
+    try {
+      await service.getBackup('testDb');
+    } catch (err) {
+      expect(err.message).to.equal("Backup file 'testPath' not found.");
+    }
   });
 });
 
-class MockBackupConfig implements ShamanBackupConfig {
-  allowUnsecureConnection: boolean = false;
-  databases: DatabaseConfig[] = [
-    {
-      "type": "test-db-type",
-      "name": "test-name"
-    }
-  ];
-}
-
-class MockBackupService implements IBackupService {
-  type: string = 'test-db-type';
-  getBackup = (_dbConfig: DatabaseConfig): Promise<string> => {
-    return Promise.resolve('mock-backup.path');
-  };
+class MockDatabaseService implements IDatabaseService {
+  type: string = 'testType';
+  getBackup(_dbConfig: DatabaseConfig): Promise<string> {
+    return Promise.resolve('testPath');
+  }
 }

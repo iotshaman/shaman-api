@@ -1,6 +1,6 @@
 import { DatabaseConfig } from "../../models/shaman-backup.config";
 
-export interface IBackupService {
+export interface IDatabaseService {
   type: string;
   getBackup: (dbConfig: DatabaseConfig) => Promise<string>;
 }

@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { JsonRepoBackupService } from './json-repo-backup.service';
+import { JsonRepoBackupService } from './json-repo.service';
 
 
 chai.use(sinonChai);

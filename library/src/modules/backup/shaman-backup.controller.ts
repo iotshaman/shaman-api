@@ -1,4 +1,4 @@
-/*istanbul ignore file*/
+/* istanbul ignore file */
 import { Application, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 import { RouteError } from "../../models/router-error";
@@ -16,7 +16,7 @@ export class ShamanBackupController extends AuthorizeControllerBase implements S
   name: string = 'shaman-backup.controller';
 
   constructor(
-    @inject('ShamanBackupMiddleware') private middleware: ShamanBackupMiddleware,
+    @inject(SHAMAN_BACKUP_TYPES.BackupMiddleware) private middleware: ShamanBackupMiddleware,
     @inject(SHAMAN_BACKUP_TYPES.ShamanBackupService) private backupService: IShamanBackupService,
     @inject(SHAMAN_AUTH_TYPES.ShamanAuthService) authService: ShamanAuthService
   ) { super(authService, ['backup']) }
