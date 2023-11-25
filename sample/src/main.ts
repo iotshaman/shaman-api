@@ -22,7 +22,6 @@ let bootstrap = async () => {
   const app = new ShamanExpressApp({ configPath: configPath, port: 5000 });
   let container = await app.compose();
 
-
   // compose services
   container.bind<IJsonService>(SHAMAN_API_TYPES.ApiService).to(JsonFileService);
   container.bind<SampleService>(SAMPLE_TYPES.SampleService).to(SampleService);

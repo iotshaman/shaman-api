@@ -22,12 +22,11 @@ export class ShamanBackupService implements IShamanBackupService {
     let backupService: IDatabaseService = this.databaseServices.find(ds => ds.type === dbConfig.type);
     if (!backupService) return Promise.reject(new Error(`Backup service '${dbConfig.type}' not found.`));
     let backupPath: string = await backupService.getBackup(dbConfig);
-    if (!_fs.existsSync(backupPath))
-      throw new Error(`Backup file '${backupPath}' not found.`);
+    if (!_fs.existsSync(backupPath)) return Promise.reject(new Error(`Backup file '${backupPath}' not found.`));
     return Promise.resolve(backupPath);
   };
 
-  
+
   private getDbConfig = (dbName: string): DatabaseConfig => {
     return this.backupConfig.databases
       .find(db => db.name === dbName);
