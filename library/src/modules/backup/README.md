@@ -10,6 +10,8 @@ The `ShamanBackupModule` offers an API endpoint that enables the creation and re
     - [Step 4](#step-4)
   - [ShamanBackupController](#shamanbackupcontroller)
     - [Backup](#backup)
+  - [Services](#services)
+    - [ShamanBackupService](#shamanbackupservice)
 
 ## Requirements
 
@@ -166,3 +168,13 @@ One endpoint is available within the Backup Controller:
 **Description**  
 
 This endpoint creates and returns a backup file for the database being targeted. It gets the database name from the request parameters. If the database name is not provided, it responds with a status code of 400. Otherwise, it creates a backup of the targeted database. If the backup is successful, it sends the backup as a download response. If an error occurs, it responds with a status code of 500.
+
+## Services
+
+While using the `ShamanBackupModule`, you will also have access one service which can be injected into your application.
+
+### ShamanBackupService
+
+This class is responsible for managing the backup process of databases. It is recommended to only use this class if you are implementing your own backup endpoint. Otherwise, you should use the ShamanBackupController. The ShamanBackupService has a single method:
+
+- `getBackup(dbName: string): Promise<string>`: This method creates a backup of the database being targeted. It returns the path to the backup file.
