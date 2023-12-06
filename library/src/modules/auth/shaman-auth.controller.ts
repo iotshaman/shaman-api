@@ -9,6 +9,7 @@ import { ITokenService } from "./services/token.service";
 import { IUserService } from "./services/user.service";
 import { SHAMAN_AUTH_TYPES } from "./shaman-auth.types";
 
+/*istanbul ignore next*/
 @injectable()
 export class ShamanAuthController implements ShamanExpressController {
 

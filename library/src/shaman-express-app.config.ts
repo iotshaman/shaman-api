@@ -1,3 +1,5 @@
+import { ShamanBackupConfig } from "./modules/backup/exports";
+
 export type ShamanExpressAppConfig = {
   configPath?: string;
   port?: number;
@@ -5,6 +7,7 @@ export type ShamanExpressAppConfig = {
   localOnly?: boolean;
   disableCors?: boolean;
   auth?: {
-    tokenSecret?: string;
-  }
+    tokenSecret: string;
+  };
+  backup?: ShamanBackupConfig;
 }

@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { injectable } from 'inversify';
 import fetch, { Response } from 'node-fetch';
 
+/*istanbul ignore next*/
 @injectable()
 export abstract class HttpService {
 

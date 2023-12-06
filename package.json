@@ -5,14 +5,14 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "restore": "shaman install",
-    "build": "shaman build",
-    "publish": "shaman publish",
-    "debug": "shaman build && shaman serve shaman-api-sample",
-    "sample": "shaman serve shaman-api-sample"
+    "restore": "sf install",
+    "build": "sf build",
+    "publish": "sf publish",
+    "debug": "sf build && sf serve --project=shaman-api-sample",
+    "sample": "sf serve --project=shaman-api-sample"
   },
   "license": "MIT",
   "dependencies": {
-    "shaman-cli": "^1.0.19"
+    "shaman-factory": "^2.0.0"
   }
 }

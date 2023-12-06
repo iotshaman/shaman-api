@@ -1,6 +1,7 @@
 import { Worker } from "worker_threads";
 import { WorkerMessageHandler } from "./worker-message-handler";
 
+/* istanbul ignore next */
 export class BackgroundWorker {
 
   worker: Worker;

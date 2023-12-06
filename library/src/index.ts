@@ -12,3 +12,4 @@ export * from './shaman-express-router';
 export * from './workers/background-worker';
 export * from './workers/worker-message-handler';
 export * from './modules/auth/exports';
+export * from './modules/backup/exports';

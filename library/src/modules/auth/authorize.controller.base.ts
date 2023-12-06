@@ -4,6 +4,7 @@ import { RouteError } from "../../models/router-error";
 import { AuthStatusCode } from "./models/auth/auth-status-code";
 import { IShamanAuthService } from "./services/shaman-auth.service";
 
+/* istanbul ignore next */
 @injectable()
 export class AuthorizeControllerBase {
 

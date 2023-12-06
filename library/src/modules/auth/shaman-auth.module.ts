@@ -7,6 +7,7 @@ import { IUserService, UserService } from "./services/user.service";
 import { ShamanAuthController } from "./shaman-auth.controller";
 import { SHAMAN_AUTH_TYPES } from "./shaman-auth.types";
 
+/*istanbul ignore next*/
 export class ShamanAuthModule extends ShamanExpressModule {
   name: string = 'shaman-auth';
   childContainer: Container;
