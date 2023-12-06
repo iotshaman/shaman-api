@@ -17,8 +17,8 @@ export class MysqlBackupService implements IDatabaseService {
       let command = `mysqldump -u ${dbConfig.username} -p${dbConfig.password} ${dbConfig.name} > ${tmpDir}/${dbConfig.name}.sql`;
       exec(command, (error, _stdout, _stderr) => {
         if (error)
-          reject(new Error(error.message));
-        resolve(`${tmpDir}/${dbConfig.name}.sql`);
+          return reject(new Error(error.message));
+        return resolve(`${tmpDir}/${dbConfig.name}.sql`);
       });
     });
   };
