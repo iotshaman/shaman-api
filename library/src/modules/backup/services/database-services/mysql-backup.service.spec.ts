@@ -22,10 +22,10 @@ describe('MysqlBackupService', () => {
     sandbox.restore();
   });
 
-  describe('getBackup', () => {
+  describe('getBackupFilePath', () => {
     it('should throw an error if config is invalid', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name' };
-      mysqlBackupService.getBackup(dbConfig)
+      mysqlBackupService.getBackupFilePath(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -38,7 +38,7 @@ describe('MysqlBackupService', () => {
     it('should throw an error is exec returns an error', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name', username: 'test-username', password: 'test-password' };
       sandbox.stub(_cmd, 'exec').yields({ message: 'error from exec' }, null, null);
-      mysqlBackupService.getBackup(dbConfig)
+      mysqlBackupService.getBackupFilePath(dbConfig)
         .then(_ => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -51,7 +51,7 @@ describe('MysqlBackupService', () => {
     it('should return the filepath for the generated mysql backup', (done) => {
       let dbConfig = { type: 'mysql', name: 'test-name', username: 'test-username', password: 'test-password' };
       sandbox.stub(_cmd, 'exec').yields(null, null, null);
-      mysqlBackupService.getBackup(dbConfig)
+      mysqlBackupService.getBackupFilePath(dbConfig)
         .then(backup => {
           expect(backup).to.equal(`${_os.tmpdir()}/test-name.sql`);
           done();

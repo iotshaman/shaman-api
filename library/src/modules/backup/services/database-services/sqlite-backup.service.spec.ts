@@ -20,10 +20,10 @@ describe('SqliteBackupService', () => {
     sandbox.restore();
   });
 
-  describe('getBackup', () => {
+  describe('getBackupFilePath', () => {
     it('should throw an error if config is invalid', (done) => {
       let dbConfig = { type: 'sqlite', name: 'test-name' };
-      sqliteBackupService.getBackup(dbConfig)
+      sqliteBackupService.getBackupFilePath(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -35,7 +35,7 @@ describe('SqliteBackupService', () => {
 
     it('should return the filepath from the dbConfig', (done) => {
       let dbConfig = { type: 'sqlite', name: 'test-name', filepath: 'test-filepath' };
-      sqliteBackupService.getBackup(dbConfig)
+      sqliteBackupService.getBackupFilePath(dbConfig)
         .then(backup => {
           expect(backup).to.equal('test-filepath');
           done();

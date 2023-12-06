@@ -177,4 +177,4 @@ While using the `ShamanBackupModule`, you will also have access one service whic
 
 This class is responsible for managing the backup process of databases. It is recommended to only use this class if you are implementing your own backup endpoint. Otherwise, you should use the ShamanBackupController. The ShamanBackupService has a single method:
 
-- `getBackup(dbName: string): Promise<string>`: This method creates a backup of the database being targeted. It returns the path to the backup file.
+- `getBackupFilePath(dbName: string): Promise<string>`: This method creates a backup of the database being targeted. It returns the path to the backup file.

@@ -9,7 +9,7 @@ export class MysqlBackupService implements IDatabaseService {
 
   type: string = 'mysql';
 
-  getBackup = (dbConfig: DatabaseConfig): Promise<string> => {
+  getBackupFilePath = (dbConfig: DatabaseConfig): Promise<string> => {
     if (!this.validConfig(dbConfig))
       return Promise.reject(new Error('Invalid config for mysql backup service. Database name, username and password are required.'));
     return new Promise((resolve, reject) => {

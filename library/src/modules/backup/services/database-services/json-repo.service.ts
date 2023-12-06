@@ -7,7 +7,7 @@ export class JsonRepoBackupService implements IDatabaseService {
 
   type: string = 'json-repo';
 
-  getBackup = (dbConfig: DatabaseConfig): Promise<string> => {
+  getBackupFilePath = (dbConfig: DatabaseConfig): Promise<string> => {
     if (!this.validConfig(dbConfig))
       return Promise.reject(new Error(`Invalid config for json-repo backup service. Filepath is required.`));
     return Promise.resolve(dbConfig.filepath);

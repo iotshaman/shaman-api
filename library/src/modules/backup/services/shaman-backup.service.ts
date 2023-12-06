@@ -5,7 +5,7 @@ import { SHAMAN_BACKUP_TYPES } from '../shaman-backup.types';
 import { IDatabaseService } from "./database-services/backup-service.interface";
 
 export interface IShamanBackupService {
-  getBackup: (dbName: string) => Promise<string>;
+  getBackupFilePath: (dbName: string) => Promise<string>;
 }
 
 @injectable()
@@ -16,12 +16,12 @@ export class ShamanBackupService implements IShamanBackupService {
     @multiInject(SHAMAN_BACKUP_TYPES.DatabaseService) private databaseServices: IDatabaseService[]
   ) { }
 
-  getBackup = async (dbName: string): Promise<string> => {
+  getBackupFilePath = async (dbName: string): Promise<string> => {
     let dbConfig: DatabaseConfig = this.getDbConfig(dbName);
     if (!dbConfig) return Promise.reject(new Error(`Database '${dbName}' not found.`));
     let backupService: IDatabaseService = this.databaseServices.find(ds => ds.type === dbConfig.type);
     if (!backupService) return Promise.reject(new Error(`Backup service '${dbConfig.type}' not found.`));
-    let backupPath: string = await backupService.getBackup(dbConfig);
+    let backupPath: string = await backupService.getBackupFilePath(dbConfig);
     if (!_fs.existsSync(backupPath)) return Promise.reject(new Error(`Backup file '${backupPath}' not found.`));
     return Promise.resolve(backupPath);
   };

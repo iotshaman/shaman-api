@@ -24,17 +24,17 @@ describe('ShamanBackupService', () => {
   });
 
   it('should return backup path when database exists and backup is successful', async () => {
-    mockDatabaseService.getBackup.resolves('testPath');
+    mockDatabaseService.getBackupFilePath.resolves('testPath');
     mockFs.existsSync.returns(true);
 
-    const result = await service.getBackup('testDb');
+    const result = await service.getBackupFilePath('testDb');
 
     expect(result).to.equal('testPath');
   });
 
   it('should throw error when database does not exist', async () => {
     try {
-      await service.getBackup('nonexistentDb');
+      await service.getBackupFilePath('nonexistentDb');
     } catch (err) {
       expect(err.message).to.equal("Database 'nonexistentDb' not found.");
     }
@@ -47,18 +47,18 @@ describe('ShamanBackupService', () => {
     );
 
     try {
-      await service.getBackup('testDb');
+      await service.getBackupFilePath('testDb');
     } catch (err) {
       expect(err.message).to.equal("Backup service 'nonexistentType' not found.");
     }
   });
 
   it('should throw error when backup file does not exist', async () => {
-    mockDatabaseService.getBackup.resolves('testPath');
+    mockDatabaseService.getBackupFilePath.resolves('testPath');
     mockFs.existsSync.returns(false);
 
     try {
-      await service.getBackup('testDb');
+      await service.getBackupFilePath('testDb');
     } catch (err) {
       expect(err.message).to.equal("Backup file 'testPath' not found.");
     }
@@ -67,7 +67,7 @@ describe('ShamanBackupService', () => {
 
 class MockDatabaseService implements IDatabaseService {
   type: string = 'testType';
-  getBackup(_dbConfig: DatabaseConfig): Promise<string> {
+  getBackupFilePath(_dbConfig: DatabaseConfig): Promise<string> {
     return Promise.resolve('testPath');
   }
 }

@@ -32,7 +32,7 @@ export class ShamanBackupController extends AuthorizeControllerBase implements S
   getBackup = (req: Request, res: Response, next: any) => {
     let dbName = req.params.dbName;
     if (!dbName) return next(new RouteError(`Database name is required.`, 400));
-    this.backupService.getBackup(dbName)
+    this.backupService.getBackupFilePath(dbName)
       .then(backup => res.download(backup))
       .catch((ex: Error) => next(new RouteError(ex.message, 500)));
   }

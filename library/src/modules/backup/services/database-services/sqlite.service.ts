@@ -7,7 +7,7 @@ export class SqliteBackupService implements IDatabaseService {
 
   type: string = 'sqlite';
 
-  getBackup = (dbConfig: DatabaseConfig): Promise<string> => {
+  getBackupFilePath = (dbConfig: DatabaseConfig): Promise<string> => {
     if (!this.validConfig(dbConfig))
       return Promise.reject(new Error(`Invalid config for sqlite backup service. Filepath is required.`));
     return Promise.resolve(dbConfig.filepath);

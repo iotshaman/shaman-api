@@ -20,10 +20,10 @@ describe('JsonRepoBackupService', () => {
     sandbox.restore();
   });
 
-  describe('getBackup', () => {
+  describe('getBackupFilePath', () => {
     it('should throw an error if config is invalid', (done) => {
       let dbConfig = { type: 'json-repo', name: 'test-name' };
-      jsonRepoBackupService.getBackup(dbConfig)
+      jsonRepoBackupService.getBackupFilePath(dbConfig)
         .then(() => {
           done('Expected an error to be thrown but promise resolved.');
         })
@@ -35,7 +35,7 @@ describe('JsonRepoBackupService', () => {
 
     it('should return the filepath from the dbConfig', (done) => {
       let dbConfig = { type: 'json-repo', name: 'test-name', filepath: 'test-filepath' };
-      jsonRepoBackupService.getBackup(dbConfig)
+      jsonRepoBackupService.getBackupFilePath(dbConfig)
         .then(backup => {
           expect(backup).to.equal('test-filepath');
           done();
