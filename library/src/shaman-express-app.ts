@@ -30,7 +30,9 @@ export class ShamanExpressApp {
     container.bind<any>(SHAMAN_API_TYPES.AppConfig).toConstantValue(config);
     container.bind<ILogger>(SHAMAN_API_TYPES.Logger).to(Logger);
     container.bind<Router>(SHAMAN_API_TYPES.ApiRouter).to(Router).inSingletonScope();
-    this.app = ExpressFactory.GenerateApplication(this.config);
+    this.app = !this.config.expressFactory ? 
+      ExpressFactory.GenerateApplication(this.config) :
+      this.config.expressFactory();
     container.bind<Application>(SHAMAN_API_TYPES.ExpressApplication).toConstantValue(this.app);
     this.container = container;
     return container;

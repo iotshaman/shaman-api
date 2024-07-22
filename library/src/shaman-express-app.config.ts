@@ -1,3 +1,5 @@
+import { Application } from "express";
+
 export type ShamanExpressAppConfig = {
   configPath?: string;
   port?: number;
@@ -6,5 +8,11 @@ export type ShamanExpressAppConfig = {
   disableCors?: boolean;
   auth?: {
     tokenSecret?: string;
-  }
+  };
+  bodyParser?: {
+    limit: string;
+    extended?: boolean;
+    parameters?: number;
+  };
+  expressFactory?: () => Application;
 }

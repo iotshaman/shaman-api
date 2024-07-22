@@ -14,8 +14,17 @@ const defaultHeaders: string[] = [
 export const ExpressFactory = {
   GenerateApplication: (config: ShamanExpressAppConfig): Application => {
     let app = express();
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
+    if (!config.bodyParser) {
+      app.use(bodyParser.json());
+      app.use(bodyParser.urlencoded({ extended: false }));
+    } else {
+      app.use(bodyParser.json({limit: config.bodyParser.limit || "2mb"}));
+      app.use(bodyParser.urlencoded({
+        limit: config.bodyParser.limit || "2mb", 
+        extended: !!config.bodyParser.extended, 
+        parameterLimit: config.bodyParser.parameters || 1000
+      }));
+    }
     app.use(compression());
     if (!config.disableCors) {
       app.use(cors({

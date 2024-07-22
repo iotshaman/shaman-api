@@ -31,5 +31,17 @@ describe('ExpressFactory', () => {
       expect(app._router.stack).to.have.length(6); // 6 middleware functions with CORS
       expect(app._router.stack[5].handle.name).to.equal('corsMiddleware');
     });
+
+    it('should generate an Express application with body parser config', () => {
+      const config: ShamanExpressAppConfig = { bodyParser: {limit: "10mb"} };
+      const app = ExpressFactory.GenerateApplication(config);
+      expect(app._router.stack).to.have.lengthOf(6);
+    });
+
+    it('should generate an Express application even with incomplete body parser config', () => {
+      const config: ShamanExpressAppConfig = { bodyParser: {limit:null} };
+      const app = ExpressFactory.GenerateApplication(config);
+      expect(app._router.stack).to.have.lengthOf(6);
+    });
   });
 });

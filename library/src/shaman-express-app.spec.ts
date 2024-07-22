@@ -1,6 +1,7 @@
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
+import * as express from "express";
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { ShamanExpressApp } from './shaman-express-app';
@@ -28,6 +29,24 @@ describe('ShamanExpressApp', () => {
 
   describe('compose', () => {
     it('should generate a container with the correct bindings', (done) => {
+      app.compose()
+        .then(container => {
+          bindFakeController(container);
+          expect(container).to.exist;
+          expect(container.get(SHAMAN_API_TYPES.AppConfig)).to.exist;
+          expect(container.get(SHAMAN_API_TYPES.Logger)).to.exist;
+          expect(container.get(SHAMAN_API_TYPES.ApiRouter)).to.exist;
+          expect(container.get(SHAMAN_API_TYPES.ExpressApplication)).to.exist;
+          done();
+        })
+        .catch(err => {
+          console.log(err);
+          throw err;
+        });
+    });
+
+    it('should generate a container with provided express factory', (done) => {
+      let app = new ShamanExpressApp({expressFactory: () => express()})
       app.compose()
         .then(container => {
           bindFakeController(container);
