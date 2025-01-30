@@ -25,7 +25,7 @@ export class ProxyWidgetController implements ShamanExpressController {
   getStatus = (_req: Request, res: Response, next: any) => {
     return this.proxyService.getWebPage('')
       .then(rslt => res.status(200).send(rslt))
-      .catch(ex => new RouteError(ex.message, 500));
+      .catch(ex => next(new RouteError(ex.message, 500)));
   }
 
 }
