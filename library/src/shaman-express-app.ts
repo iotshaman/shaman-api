@@ -41,7 +41,7 @@ export class ShamanExpressApp {
   configureRouter = async (modules: ShamanExpressModule[] = []): Promise<Application> => {
     if (!this.container) throw new Error("Please call 'compose' before configuring router.");
     for (let module of modules) {
-      let parentContainer = module.isolated ? new Container() : this.container.createChild();
+      let parentContainer = module.isolated ? new Container() : new Container({parent: this.container});
       let moduleContainer = await module.compose(parentContainer);
       let controllers = module.controllers(moduleContainer);
       for (let controller of controllers) controller.configure(this.app);

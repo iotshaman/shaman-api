@@ -12,8 +12,7 @@ export class HealthController implements ShamanExpressController {
 
   configure = (express: Application) => {
     let router = Router();
-    router
-      .get('/', this.getStatus)
+    router.get('/', this.getStatus);
 
     express.use('/api/health', router);
   }

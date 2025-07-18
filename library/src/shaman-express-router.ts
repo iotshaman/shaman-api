@@ -15,7 +15,7 @@ export class ShamanExpressRouter {
     @multiInject(SHAMAN_API_TYPES.ApiController) private controllers: ShamanExpressController[]) {}
 
   configure = (express: Application): void => {
-    express.all('/api/*', this.logApiRequests);
+    express.all('/api/*splat', this.logApiRequests);
     this.loadRoutes(express);
   }
 
