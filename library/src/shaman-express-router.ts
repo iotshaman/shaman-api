@@ -33,7 +33,14 @@ export class ShamanExpressRouter {
   }
 
   private logApiRequests = (req: Request, res: Response, next: any) => {
-    this.logger.write(`${req.method.toUpperCase()} - ${req.url}`);
+    const startHrTime = process.hrtime();
+    this.logger.write(`${req.method.toUpperCase()} ${req.url} - Request received`);
+    res.on('finish', () => {
+      const elapsedHrTime = process.hrtime(startHrTime);
+      const elapsedTimeInMs = (elapsedHrTime[0] * 1000) + (elapsedHrTime[1] / 1e6);
+      const prefix = `${req.method.toUpperCase()} ${req.originalUrl}`;
+      this.logger.write(`${prefix} - Request finished in ${elapsedTimeInMs.toFixed(3)}ms (${res.statusCode})`);
+    });
     next();
   }
 

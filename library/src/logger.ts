@@ -29,10 +29,11 @@ export class Logger implements ILogger {
     });
   }
 
-  write = (message: string, level: string = 'info') => {
+  write = (message: string, level: string = 'info', args?: any[]) => {
     this.logger.log({ 
       level: level, 
-      message: message
+      message: message,
+      ...args
     });
   }
 }
