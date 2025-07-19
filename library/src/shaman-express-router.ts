@@ -19,15 +19,16 @@ export class ShamanExpressRouter {
     this.loadRoutes(express);
   }
 
-  registerGlobalErrorHandler = (express: Application) => {
+  registerGlobalErrorHandler = (express: Application, production?: boolean) => {
     express.use((err: RouteError, req: Request, res: Response, next: any) => {
-      let message = `${req.method.toUpperCase()} - ${req.url} :: ${err.message}`;
+      let message = `${req.method.toUpperCase()} ${req.url} :: ${err.original?.message || err.message}`;
       this.logger.write(message, 'error');
       if (err.statusCode != 401 && err.statusCode != 403) {
-        if (err.stack) this.logger.write(err.stack);
+        if (err.original?.stack) this.logger.write(err.original.stack, 'error');
+        else if (err.stack) this.logger.write(err.stack, 'error');
       }
       if (!err.statusCode) return next();
-      if (!err.sendMessage) return res.status(err.statusCode).send('Server Error');
+      if (production) return res.status(err.statusCode).send('Server Error');
       return res.status(err.statusCode).send(err.message);
     });
   }

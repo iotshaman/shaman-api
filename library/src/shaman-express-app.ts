@@ -50,7 +50,7 @@ export class ShamanExpressApp {
     }
     let router = this.container.get<Router>(SHAMAN_API_TYPES.ApiRouter);
     router.configure(this.app);
-    router.registerGlobalErrorHandler(this.app);
+    router.registerGlobalErrorHandler(this.app, this.config.production);
     return this.app;
   }
   

@@ -1,9 +1,9 @@
 export class RouteError extends Error {
   statusCode: number;
-  sendMessage: boolean;
-  constructor(message: string, statusCode: number, sendMessage: boolean = true) {
+  original?: any;
+  constructor(message: string, statusCode: number, original?: any) {
     super(message);
     this.statusCode = statusCode;
-    this.sendMessage = sendMessage;
+    this.original = original;
   }
 }
