@@ -20,19 +20,21 @@ export class Logger implements ILogger {
     this._logger = createLogger({
       levels: config.syslog.levels,
       transports: [
-        new transports.Console()
-      ],
-      format: format.combine(
-        format.timestamp(),
-        myFormat
-      )
+        new transports.Console({
+          format: format.combine(
+            format.timestamp(),
+            myFormat
+          )
+        })
+      ]
     });
   }
 
-  write = (message: string, level: string = 'info') => {
+  write = (message: string, level: string = 'info', ...args: any[]) => {
     this.logger.log({ 
       level: level, 
-      message: message
+      message: message,
+      ...args
     });
   }
 }

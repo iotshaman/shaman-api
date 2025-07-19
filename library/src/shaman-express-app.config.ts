@@ -3,6 +3,7 @@ import { Application } from "express";
 export type ShamanExpressAppConfig = {
   configPath?: string;
   port?: number;
+  production?: boolean;
   headerAllowList?: string[];
   localOnly?: boolean;
   disableCors?: boolean;

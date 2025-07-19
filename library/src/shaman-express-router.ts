@@ -15,25 +15,33 @@ export class ShamanExpressRouter {
     @multiInject(SHAMAN_API_TYPES.ApiController) private controllers: ShamanExpressController[]) {}
 
   configure = (express: Application): void => {
-    express.all('/api/*', this.logApiRequests);
+    express.all('/api/*splat', this.logApiRequests);
     this.loadRoutes(express);
   }
 
-  registerGlobalErrorHandler = (express: Application) => {
+  registerGlobalErrorHandler = (express: Application, production?: boolean) => {
     express.use((err: RouteError, req: Request, res: Response, next: any) => {
-      let message = `${req.method.toUpperCase()} - ${req.url} :: ${err.message}`;
+      let message = `${req.method.toUpperCase()} ${req.url} :: ${err.original?.message || err.message}`;
       this.logger.write(message, 'error');
       if (err.statusCode != 401 && err.statusCode != 403) {
-        if (err.stack) this.logger.write(err.stack);
+        if (err.original?.stack) this.logger.write(err.original.stack, 'error');
+        else if (err.stack) this.logger.write(err.stack, 'error');
       }
       if (!err.statusCode) return next();
-      if (!err.sendMessage) return res.status(err.statusCode).send('Server Error');
+      if (production) return res.status(err.statusCode).send('Server Error');
       return res.status(err.statusCode).send(err.message);
     });
   }
 
   private logApiRequests = (req: Request, res: Response, next: any) => {
-    this.logger.write(`${req.method.toUpperCase()} - ${req.url}`);
+    const startHrTime = process.hrtime();
+    this.logger.write(`${req.method.toUpperCase()} ${req.url} - Request received`);
+    res.on('finish', () => {
+      const elapsedHrTime = process.hrtime(startHrTime);
+      const elapsedTimeInMs = (elapsedHrTime[0] * 1000) + (elapsedHrTime[1] / 1e6);
+      const prefix = `${req.method.toUpperCase()} ${req.originalUrl}`;
+      this.logger.write(`${prefix} - Request finished in ${elapsedTimeInMs.toFixed(3)}ms (${res.statusCode})`);
+    });
     next();
   }
 
