@@ -4,7 +4,7 @@ import { injectable } from 'inversify';
 
 export interface ILogger {
   logger: WinstonLogger;
-  write: (message: string, level?: string) => void;
+  write(message: string, level?: string): void;
 }
 
 @injectable()

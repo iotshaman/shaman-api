@@ -1,4 +1,5 @@
 import { Application } from "express";
+import { ILogger } from "./logger";
 
 export type ShamanExpressAppConfig = {
   configPath?: string;
@@ -16,4 +17,5 @@ export type ShamanExpressAppConfig = {
     parameters?: number;
   };
   expressFactory?: () => Application;
+  logger?: ILogger;
 }
