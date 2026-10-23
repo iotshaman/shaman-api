@@ -4,7 +4,7 @@
 
 # login to github and clone repository
 gh-login.sh "$GH_TOKEN"
-git-clone.sh --user iotshaman --repo shaman-api --branch main
+git-clone.sh --user iotshaman --repo shaman-api --branch master
 
 # build modules
 restore-npm.sh /app/shaman-api/library/
