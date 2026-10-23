@@ -9,7 +9,8 @@
     "build": "shaman build",
     "publish": "shaman publish",
     "debug": "shaman build && shaman serve shaman-api-sample",
-    "sample": "shaman serve shaman-api-sample"
+    "sample": "shaman serve shaman-api-sample",
+    "release": "docker run --rm -it -v ./build.sh:/app/entrypoint.sh -e GH_TOKEN=$GH_TOKEN --entrypoint bash shaman-ci /app/entrypoint.sh"
   },
   "license": "MIT",
   "dependencies": {
